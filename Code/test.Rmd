@@ -1,0 +1,7 @@
+---
+title: "Test Merge Conflict"
+output: html_notebook
+---
+
+
+I'm trying to make a merge conflict. 
