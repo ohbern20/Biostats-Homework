@@ -1,0 +1,47 @@
+---
+title: "Homework 10"
+output: html_notebook
+---
+
+
+In this homework I will pull in and examine the squirrel.csv data using the methods we learned in chapter two of GSWR and in class
+
+First set things up
+```{r}
+rm(list = ls()) #clear R's brain
+library(here) #turn on libraries
+library(ggplot2)
+library(dplyr)
+```
+
+
+Now pull in the data
+```{r}
+DF <- read.csv(here("Data", "squirrels.csv"), stringsAsFactors = TRUE)
+```
+
+
+Now I will examine the data. First I will check to make sure all the variable names look correct
+```{r}
+names(DF) #they do! 
+```
+
+Next I will check to see what type of data R thinks each variable is, and see someof the entered data for each variable
+```{r}
+glimpse(DF) #I see factor (character) data and integer (numerical) data 
+```
+
+
+I will use the `str()` function to display the total number of observations, number of variables, and the type of data and number of levels for each variable. 
+```{r}
+str(DF) #this seems correct! 
+```
+
+
+Finally, I will display the first 6 rows of the dataset in a pretty table
+```{r}
+head(DF) 
+```
+
+
+

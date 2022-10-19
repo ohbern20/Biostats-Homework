@@ -1,0 +1,66 @@
+---
+title: "Chapter 2 Part 1"
+output: html_notebook
+---
+
+First I will clear R's brain
+```{r}
+rm(list = ls())
+```
+
+
+Now I will run packages 
+```{r}
+library(dplyr)
+```
+
+
+Now I will import my data using read_csv() method
+```{r}
+library(readr)
+compensation <- read_csv("Data/compensation.csv")
+View(compensation)
+```
+
+
+Another method to import data is using the "file.choose()" function and then "reading" the data into R. 
+```{r}
+DF <- read.csv("/home/ohbern20/BioStats_Fall22/Bernier_Homework/Data/compensation.csv")
+```
+
+
+Now check that my data are my data
+
+View names assigned to each column
+```{r}
+names(DF)
+```
+
+View first six rows of dataset
+```{r}
+head(DF)
+```
+
+See the dimensions of the dataset
+```{r}
+dim(DF)
+```
+
+
+See the structure of the dataset (what types of variables, number of obs, etc.)
+```{r}
+str(DF)
+```
+
+Get a horizontal view of the data
+```{r}
+glimpse(DF) #can see that the data have 3 variables, Root, Fruit, and Grazing
+```
+
+Get a vertical view of the data
+```{r}
+tbl_df(DF) #can see the data displayed in a nice vertical table 
+```
+
+
+

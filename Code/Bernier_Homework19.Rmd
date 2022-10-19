@@ -1,0 +1,98 @@
+---
+title: "Homework 19"
+output: html_notebook
+---
+
+#Review of GSWR dplyr Concepts 
+
+##Goals for the assignment:
+
+1. Refresh my memory of common dplyr functions
+
+2. Have fun with R! 
+
+First, I will set up my workspace
+```{r}
+rm(list = ls())
+library(dplyr)
+library(here)
+```
+
+Now, I will suck in my data
+```{r}
+Leaves <- read.csv(here("Data", "Class_leaf_measurements.csv"))
+```
+
+
+Now I will examine the data
+```{r}
+str(Leaves) #can see that there are some messy column names
+```
+
+Now I will fix the messy column names
+```{r}
+names(Leaves) #I want to change "DBH..cm", "Leaf..", and "Petiole.length" so they don't have any special characters 
+
+names(Leaves) <- c("Tree_num", "Species", "Leaf_num", "DBH_cm", "Petiole_length", "Total_length_cm", "Middle_lobe_length_cm", "Middle_lobe_width_cm", "Person")
+
+names(Leaves) #that looks better! 
+```
+
+
+Now I want to convert the Species variable (which is currently a character variable) to a factor
+```{r}
+Leaves$Species <- as.factor(Leaves$Species)  #convert character column to factor
+class(Leaves$Species) #check class, it's a factor now!
+```
+
+Now I will check how manny levels are in the Species variable
+```{r}
+levels(Leaves$Species) #there are 9! Uh oh, must be spelling/formatting errors
+```
+
+Now I will fix the formatting so R knows we only have 3 tree species. First, I will fix the Norway maples 
+```{r}
+fix <- which(Leaves$Species == "Norway mapel" | Leaves$Species == "Norway Maple") #tell R that "Norway mapel" and "Norway Maple" are wrong
+
+Leaves$Species[fix]<- "Norway maple" #assign the wrong versions to "Norway maple"
+unique(Leaves$Species) #can see that they are now labeled as "Norway maple" (even though there are still 9 levels showing...) 
+```
+
+And now I will fix sugar maples
+```{r}
+bad <- which(Leaves$Species == "Sugar maple" | Leaves$Species == "Sugar Maple") #tell R that "Sugar maple" and "Sugar Maple" are wrong
+
+Leaves$Species[bad]<- "sugar maple" #assign the wrong versions to "sugar maple"
+unique(Leaves$Species) #can see that they are now labeled as "sugar maple" 
+```
+
+Lastly, I will fix the red maples
+```{r}
+no <- which(Leaves$Species == "Red maple" | Leaves$Species == "Red Maple") #tell R that "Red maple" and "Red Maple" are wrong
+
+Leaves$Species[no]<- "red maple" #assign the wrong versions to "red maple"
+unique(Leaves$Species) #can see that they are now labeled as "red maple" 
+```
+
+Now I will create a new dataset called "Sugar" by selecting only the sugar maple data from the Leaves data set
+```{r}
+Sugar <- Leaves %>%
+  filter(Species == "sugar maple")
+```
+
+
+Now I will subset the columns in Sugar using dplyr commands so that you leave out the Person, Leaf number and Tree number variables. Save the result as Sugar.
+```{r}
+Sugar <- select(Sugar, -c(Person, Leaf_num, Tree_num))
+```
+
+Now I will create a histogram of petiole lengths using the Sugar data set. 
+```{r}
+Petiole_lengths <- Sugar$Petiole_length
+hist(Petiole_lengths)
+```
+
+
+
+
+

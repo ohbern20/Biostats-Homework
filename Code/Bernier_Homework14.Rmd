@@ -1,0 +1,80 @@
+---
+title: "Using dplyr to fix mistakes"
+output: html_notebook
+---
+
+In this homework I will practice dplyr skills to fix mistakes in data frames.
+
+First, I will set up my workspace
+```{r}
+rm(list = ls())
+library(here)
+library(dplyr)
+```
+
+
+Now I will import my data
+```{r}
+DF <- read.csv(here("Data", "drug_resistance.csv")) #run without stringsAsFactors 
+summary(DF) #get summary statistics for the data
+```
+Now I will try importing the data with `stringsAsFactors = TRUE`
+```{r}
+DF <- read.csv(here("Data", "drug_resistance.csv"), stringsAsFactors = TRUE)
+summary(DF)
+```
+I can see from that when the data was imported with `stringsAsFactors = TRUE` the summary statistics told me the different levels for the variables that were initially interpreted as character/string data (Treatment and tech.name). However, when these variables were sucked in as factor data, the different spellings of each observation were interpreted as different levels of the variable.
+
+Now I will examine the different levels of the Treatment and tech.name variables 
+```{r}
+levels(DF$Treatment) #I can see that there are multiple versions of each category, so I need to fix that
+
+levels(DF$tech.name) #there are also multiple spellings here
+```
+
+Now I will clean up the Treatment variable
+```{r}
+fix <- which(DF$Treatment == "cantrol" | DF$Treatment == "Control") #tell R that "cantrol" and "Control" are wrong
+
+DF$Treatment[fix]<- "control" #assign the wrong versions to "control"
+unique(DF$Treatment) #can see that they are now labeled as "control" 
+
+
+#now I will fix the drug2 observations
+wrong <- which(DF$Treatment == "drug x 2" | DF$Treatment == "Drugx2") #tell R that "drug x 2" and "Drug2" are wrong
+
+DF$Treatment[wrong]<- "drug2" #assign the wrong versions to "drug2"
+unique(DF$Treatment) #can see that they are now labeled as "drug2" 
+
+#and now fix drug3
+bad <- which(DF$Treatment == "drug x 3" | DF$Treatment == "Drug x 3")
+DF$Treatment[bad] <- "drug3"
+unique(DF$Treatment) #now the only versions of treatment are control, drug2, and drug3 
+```
+
+Now I need to look at the tech.name variables
+```{r}
+#first let me look at the version of tech.name again, and while I'm at it let me change the name of the variable as well (and the name of colony.count)
+DF <- DF %>% 
+  rename(
+    tech_name = tech.name,
+    colony_count = colony.count)
+names(DF)
+
+levels(DF$tech_name)
+```
+
+Now I will modify the versions of tech_name
+```{r}
+no <- which(DF$tech_name == "becca")
+DF$tech_name[no] <- "Becca"
+unique(DF$tech_name)
+
+stop <- which(DF$tech_name == "brain" | DF$tech_name == "brian")
+DF$tech_name[stop] <- "Brian"
+unique(DF$tech_name) #now I only see one version of each name
+```
+
+
+There should now only be one choice for each level of the Treatment and tech_name variables in the dataframe
+

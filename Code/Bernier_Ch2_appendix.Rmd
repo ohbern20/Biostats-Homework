@@ -1,0 +1,69 @@
+---
+title: "Chapter 2 Part 2"
+output: html_notebook
+---
+
+Clear R's brain
+```{r}
+rm(list = ls())
+```
+
+
+Turn on packages
+```{r}
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(lubridate)
+library(ggplot2)
+```
+
+Bring in data
+```{r}
+nasty.format <- read.csv("/home/ohbern20/BioStats_Fall22/Bernier_Homework/Data/nasty format.csv")
+```
+
+
+View the structure of the data
+```{r}
+str(nasty.format) #know there should only be 36 rows, we we open the dataset can see that row 37 is empty
+```
+
+
+Filter the data
+```{r}
+nasty.format <- filter(nasty.format, Bottle != "")
+glimpse(nasty.format) #can see that there are 36 rows now!
+```
+
+Make the data tidy
+```{r}
+tidy_data <- gather(nasty.format, Date, Abundance, 4:11) #made a new variable called Date and a new variable called Abundance
+glimpse(tidy_data)
+```
+
+Now we need to tidy the dates
+```{r}
+tidy_data <- mutate(tidy_data, Date = substr(Date, 2, 20)) #tell R what the dates should be
+```
+
+
+See what the dates look like 
+```{r}
+unique(tidy_data$Date)
+```
+
+The date is formatted day-month-year. So want to use dmy() function
+```{r}
+tidy_data <- mutate(tidy_data, Date = dmy(Date))
+glimpse(tidy_data) #the dates are now a date variable 
+```
+
+
+Now make a visualization of the data
+```{r}
+ggplot(data = tidy_data, aes(x = Date, y = Abundance)) +
+  geom_point() +
+  facet_wrap(~Bottle)
+```
+

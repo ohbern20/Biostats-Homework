@@ -1,0 +1,145 @@
+---
+title: "GSWR Chapter 3 Exercise 1"
+output: html_notebook
+---
+
+In this .Rmd, I will be working through the material covered in chapter 3 of Getting Started with R. I will demonstrate skills relating to data management, learn how to manipulate data, and explore different ways to familiarize myself with my data. 
+
+First, I will set things up. 
+```{r}
+rm(list = ls())
+library(here)
+library(ggplot2)
+library(dplyr)
+```
+
+
+Now I will suck in my data.
+```{r}
+compensation <- read.csv(here("Data", "compensation.csv"))
+```
+
+
+Now I will get a summary of the compensation data using the `summary()` function. 
+```{r}
+summary(compensation)
+```
+
+Now I will use `select()` to grab a specific column from the dataset
+```{r}
+select(compensation, Fruit) #select the Fruit column 
+```
+
+Can also grab all the columns minus specified ones
+```{r}
+select(compensation, -Root) #grab all columns except Root
+```
+
+
+What if we want to grab rows? Use `slice()`!
+```{r}
+slice(compensation, 2) #can see 1 row returned 
+```
+
+We could also grab rows 2-10
+```{r}
+slice(compensation, 2:10)
+```
+
+Can also collect specific rows using `c()` 
+```{r}
+slice(compensation, c(2, 3, 10))
+```
+
+
+Now use `with()` to tell R to look at a data frame and do a specific task
+```{r}
+with(compensation, Fruit > 80)
+```
+
+
+
+And now my favorite, `filter()`! I will find teh rows where it is true that Fruit is > 80 and return them as a data frame
+```{r}
+filter(compensation, Fruit > 80) #cool!
+```
+
+
+Can filter for multiple conditions
+```{r}
+filter(compensation, Fruit > 80 | Fruit < 20) #the "|" symbol means "OR" 
+```
+
+
+Now I will assign the results of the dataset filtered above to an object
+```{r}
+lo_hi_fruit <- filter(compensation, Fruit > 80 | Fruit < 20)
+lo_hi_fruit #now look at it
+```
+
+
+Now before I use `mutate()` I will use `head()` to limit the rows of data
+```{r}
+head(compensation)
+```
+
+
+Now I will take the value of log(Fruit) and add it to a column called "logFruit" which will be added to the compensation dataset
+```{r}
+compensation <- mutate(compensation, logFruit = log(Fruit))
+head(compensation) #what does compensation look like now? There's a new column called logFruit!
+```
+
+
+Now I will use `arrange()` to order my data in a specific way
+```{r}
+arrange(compensation, Fruit) #telling R to arrange the data in order of increasing value of Fruit 
+```
+
+Now I will combine multiple dplyr funcitons!
+```{r}
+select(filter(compensation, Fruit > 80), Root) #R will filter the dataset so that only observations where Fruit is greater than 20 exist, and tehn select the Root column for those observations
+```
+
+
+Now I will tell R to do the same thing as above but using the piping method
+```{r}
+compensation %>%
+  filter(Fruit > 80) %>%
+  select(Root) #same result!
+```
+
+
+Now to calculate some summary statistics...I will use `group_by()` and `summarise()`
+```{r}
+summarise(
+  group_by(compensation, Grazing), 
+  meanFruit = mean(Fruit))
+
+#now assign it to a dataframe 
+mean.fruit <- summarise(
+  group_by(compensation, Grazing),
+  meanFruit = mean(Fruit))
+```
+
+Now I will do the same task without nesting, but using piping instead
+```{r}
+compensation %>%
+  group_by(Grazing) %>%
+  summarise(meanFruit = mean(Fruit))
+```
+
+
+Now let's ask for a different summary statistic
+```{r}
+compensation %>%
+  group_by(Grazing) %>%
+  summarise(
+    meanFruit = mean(Fruit), 
+    sdFruit = sd(Fruit))
+```
+
+
+
+
+

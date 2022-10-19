@@ -1,0 +1,66 @@
+---
+title: "Homework 12"
+output: html_notebook
+---
+
+Set up my workspace 
+```{r}
+rm(list = ls()) #clear R's brain
+library(here)
+library(tidyverse)
+```
+
+
+Suck in the data
+```{r}
+Cover <- read.csv(here("Data", "donnerville_percent_cover.csv"), stringsAsFactors = TRUE) #tells R that character data are factors 
+```
+
+
+Glimpse the data to see the variable, variable types, number of observations, etc. 
+```{r}
+glimpse(Cover) #can see that there are 36 oberservations of 9 variables
+```
+
+
+Use `head` to view the first 6 rows of the data
+```{r}
+head(Cover) #everything seems in order
+```
+
+
+See the structure of the data
+```{r}
+str(Cover)
+```
+
+
+I now want to rename some of the columns so they follow our rules for data formatting
+```{r}
+Cover <- Cover %>% 
+  rename(
+    Plot_type = Plot.type,
+    Plot_dim = Plot.dim
+    )
+names(Cover)
+```
+
+
+Now I want to determine the average percent cover by cover type (bare, bryophytes, vascular plants) for Donnerville 1
+```{r}
+Cover %>%
+  filter(Site == "Donnerville 1") %>%
+  group_by(Type) %>%
+  summarize(percent_cover = mean(Percent)) 
+```
+
+
+Now I want to determine the average percent vascular plant cover across all sites.
+```{r}
+Cover %>%
+  filter(Type == "Vascular") %>%
+  summarize(avg_percent_vasc = mean(Percent)) #expecting to see a 1x1 data frame
+```
+
+New trick! Can use `rm(Cover)` to remove a specific data frame from the environment 
+
