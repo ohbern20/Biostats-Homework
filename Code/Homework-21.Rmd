@@ -21,7 +21,7 @@ Now check out the data
 glimpse(compensation)
 ```
 
-Now I will make my first ggplot picture
+Now I will make my first ggplot picture - a scatter plot
 ```{r}
 ggplot(compensation, aes(x = Root, y = Fruit)) +
   geom_point()
@@ -51,6 +51,58 @@ ggplot(compensation, aes(x = Root, y = Fruit, shape = Grazing)) +
   ylab("Fruit Production") + 
   theme_bw()
 ```
+
+
+
+Now, moving on to box and whisker plots...
+```{r}
+ggplot(compensation, aes(x = Grazing, y = Fruit)) +
+  geom_boxplot() +
+  xlab("Grazing Treatment") +
+  ylab("Fruit Production") +
+  theme_bw()
+```
+
+
+Now, I'll add some raw data points over the boxplot
+```{r}
+ggplot(compensation, aes(x = Grazing, y = Fruit)) +
+  geom_boxplot() +
+  geom_point(size = 4, color = 'lightgrey', alpha = 0.5) + #add points with specific size, color, and transparency 
+  xlab("Grazing Treatment") +
+  ylab("Fruit Production") +
+  theme_bw()
+```
+
+
+Now lets make a histogram!
+```{r}
+ggplot(compensation, aes(x = Fruit)) +
+  geom_histogram()
+```
+
+
+Now let's make it look a little nicer
+```{r}
+ggplot(compensation, aes(x = Fruit)) +
+  geom_histogram(bins = 10) #use 10 bars
+ggplot(compensation, aes(x = Fruit)) +
+  geom_histogram(binwidth = 15) #adjust the width of each bar
+```
+
+
+Also...we can facet
+```{r}
+ggplot(compensation, aes(x = Fruit)) +
+  geom_histogram(binwidth = 15) +
+  facet_wrap(~Grazing) #tells R to make a histrogram for each level of Grazing 
+```
+
+Lastly, if I wanted to save these plots anywhere as a png file, I could use ggsave()
+
+
+
+
 
 
 
