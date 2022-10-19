@@ -1,0 +1,56 @@
+---
+title: "GSWR Chapter 4"
+output: html_notebook
+---
+
+First, set up my workspace
+```{r}
+rm(list = ls())
+library(ggplot2)
+library(tidyverse)
+library(here)
+```
+
+Now suck in the compensation data
+```{r}
+compensation <- read.csv(here("Data", "compensation.csv"))
+```
+
+Now check out the data
+```{r}
+glimpse(compensation)
+```
+
+Now I will make my first ggplot picture
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit)) +
+  geom_point()
+```
+
+Now I want to add a color theme
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit)) +
+  geom_point() +
+  theme_bw()
+```
+
+Now I want to increase the size of the points, add axis labels, and make it so that the colors of the points match the levels in the group
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit, color = Grazing)) + #color = to specify color matches levels
+  geom_point(size = 5) + #specify point size
+  xlab("Root Biomass") + #add x label
+  ylab("Fruit Production") + #add y label
+  theme_bw()
+```
+
+Could also change the shape of the points to correspond to the grazing level
+```{r}
+ggplot(compensation, aes(x = Root, y = Fruit, shape = Grazing)) +
+  geom_point(size = 5) + 
+  xlab("Root Biomass") + 
+  ylab("Fruit Production") + 
+  theme_bw()
+```
+
+
+
