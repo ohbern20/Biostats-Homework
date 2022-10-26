@@ -54,6 +54,7 @@ ggplot(DF, aes(x = SOM_percent)) +
 
 Now I will create all three graphs again using the calcium data 
 
+First, the scatter plot
 ```{r}
 ggplot(DF, aes(x = Field.Name, y = Ca.ppm)) +
   geom_point() +
@@ -62,6 +63,8 @@ ggplot(DF, aes(x = Field.Name, y = Ca.ppm)) +
   theme_bw()
 ```
 
+
+Now a boxplot
 ```{r}
 ggplot(DF, aes(x = Field.Name, y = Ca.ppm)) +
   geom_boxplot() +
@@ -71,7 +74,7 @@ ggplot(DF, aes(x = Field.Name, y = Ca.ppm)) +
   theme_bw()
 ```
 
-
+Lastly, a histogram
 ```{r}
 ggplot(DF, aes(x = Ca.ppm)) +
   geom_histogram(bins = 10) +
