@@ -1,0 +1,104 @@
+---
+title: "GSWR Ch. 5 Part 1"
+output: html_notebook
+---
+
+First I will set up my workspace
+```{r}
+rm(list = ls())
+library(here)
+library(ggplot2)
+library(tidyverse)
+```
+
+
+Now I will import both datasets I need to work through the text in chapter 5
+```{r}
+ozone <- read.csv(here("Data", "ozone.csv"))
+lady <- read.csv(here("Data", "ladybirds.csv"))
+```
+
+
+First, I will work with the lady dataset. I will check out the data
+```{r}
+glimpse(lady) #I notice that I have a varialbe called "colour" that is listed in the book as "morph_colour" - just want to keep this in mind for later analysis
+```
+
+
+Now I want to organize the data for platting. The null hypothesis is that there is no association between the color morphs and habitat 
+```{r}
+totals <- lady %>% 
+  group_by(Habitat, colour) %>%
+  summarise(total.number = sum(number))
+```
+
+
+Now I will plot a simple bar graph for visualizing the data
+```{r}
+ggplot(totals, aes(x = Habitat, y = total.number,
+                   fill = colour)) +
+  geom_bar(stat = 'identity', position = 'dodge')
+```
+
+
+Now I want to adjust the graph colors so that they correspond to the ladybird colors!
+```{r}
+ggplot(totals, aes(x = Habitat, y = total.number,
+                   fill = colour)) +
+  geom_bar(stat = 'identity', position = 'dodge') +
+  scale_fill_manual(values = c(black = "black", red = "red")) #it looks like the black morph is more common in the industrial habitat compared to the red morph, so I am expecting to reject the null hypothesis
+```
+
+Now, before I can run the statistical model, I need to fit the data to a matix
+```{r}
+lady.mat <- xtabs(number ~ Habitat + colour,
+                  data = lady)
+
+lady.mat
+```
+
+Now the chi square test!
+```{r}
+lady.chi <- chisq.test(lady.mat) #small p-value!
+
+names(lady.chi)
+
+lady.chi$expected
+```
+
+
+      
+Now, I will move on to a two-sampel t-test
+
+First, glimpse the data
+```{r}
+glimpse(ozone)
+```
+
+
+Now, plot the data. Null hypothesis is that there is no difference in ozone levels between the two locaitons
+```{r}
+ggplot(ozone, aes(x = Ozone)) +
+  geom_histogram(binwidth = 10) +
+  facet_wrap(~Garden.location, ncol = 1) +
+  theme_bw() #seems like we might reject the null hypothesis based on what this figure shows
+```
+
+
+Time for the t-test!
+```{r}
+t.test(Ozone ~ Garden.location, data = ozone) #small p-value! The level of ozone is statistically different between the two locations 
+```
+
+
+A slightly different version...
+```{r}
+var.test(Ozone ~ Garden.location, data = ozone)
+```
+
+
+
+
+
+
+
