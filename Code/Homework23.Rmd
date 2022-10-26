@@ -1,0 +1,86 @@
+---
+title: "Plotting Soil Data"
+output: html_notebook
+---
+
+First, I will set up my workspace
+```{r}
+rm(list = ls())
+library(here)
+library(ggplot2)
+library(dplyr)
+```
+
+Now I will suck in my data
+```{r}
+DF <- read.csv(here("Data", "soil_data.csv"))
+```
+
+Now I will glimpse the data
+```{r}
+glimpse(DF) #I am going to plot the SOM_percent variable
+```
+
+
+First I want to create a scatter plot
+```{r}
+ggplot(DF, aes(x = Field.Name, y = SOM_percent)) +
+  geom_point() +
+   xlab("Site") + 
+  ylab("Soil Organic Matter") +
+  theme_bw()
+```
+
+
+Now I will create a boxplot
+```{r}
+ggplot(DF, aes(x = Field.Name, y = SOM_percent)) +
+  geom_boxplot() +
+  geom_point(size = 4, color = 'lightgrey', alpha = 0.5) + 
+  xlab("Site") +
+  ylab("Soil Organic Matter") +
+  theme_bw()
+```
+
+
+Now I will create a historgram
+```{r}
+ggplot(DF, aes(x = SOM_percent)) +
+  geom_histogram(bins = 10) +
+  theme_bw()
+```
+
+
+
+Now I will create all three graphs again using the calcium data 
+
+```{r}
+ggplot(DF, aes(x = Field.Name, y = Ca.ppm)) +
+  geom_point() +
+   xlab("Site") + 
+  ylab("Calcium PPM") +
+  theme_bw()
+```
+
+```{r}
+ggplot(DF, aes(x = Field.Name, y = Ca.ppm)) +
+  geom_boxplot() +
+  geom_point(size = 4, color = 'lightgrey', alpha = 0.5) + 
+  xlab("Site") +
+  ylab("Calcium PPM") +
+  theme_bw()
+```
+
+
+```{r}
+ggplot(DF, aes(x = Ca.ppm)) +
+  geom_histogram(bins = 10) +
+  theme_bw()
+```
+
+
+
+
+
+
+
