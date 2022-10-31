@@ -223,84 +223,141 @@ pre code {
 <p>First, I will set up my workspace</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdCA9IGxzKCkpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdCA9IGxzKCkpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkoaGVyZSlcbmBgYCJ9 -->
 <pre class="r"><code>rm(list = ls())
-library(tidyverse)</code></pre>
+library(tidyverse)
+library(here)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2RzIG92ZXJ3cml0dGVuIGJ5ICdkYnBseXInOlxuICBtZXRob2QgICAgICAgICBmcm9tXG4gIHByaW50LnRibF9sYXp5ICAgICBcbiAgcHJpbnQudGJsX3NxbCAgICAgIFxu4pSA4pSAIEF0dGFjaGluZyBwYWNrYWdlcyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgdGlkeXZlcnNlIDEuMy4xIOKUgOKUgFxu4pyUIGdncGxvdDIgMy4zLjUgICAgICDinJQgcHVycnIgICAwLjMuNSBcbuKclCB0aWJibGUgIDMuMS44ICAgICAg4pyUIGRwbHlyICAgMS4wLjEwXG7inJQgdGlkeXIgICAxLjIuMSAgICAgIOKclCBzdHJpbmdyIDEuNC4xIFxu4pyUIHJlYWRyICAgMi4wLjEgICAgICDinJQgZm9yY2F0cyAwLjUuMSBcbuKUgOKUgCBDb25mbGljdHMg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAIHRpZHl2ZXJzZV9jb25mbGljdHMoKSDilIDilIBcbuKcliBkcGx5cjo6ZmlsdGVyKCkgbWFza3Mgc3RhdHM6OmZpbHRlcigpXG7inJYgZHBseXI6OmxhZygpICAgIG1hc2tzIHN0YXRzOjpsYWcoKVxuIn0= -->
-<pre><code>Registered S3 methods overwritten by &#39;dbplyr&#39;:
-  method         from
-  print.tbl_lazy     
-  print.tbl_sql      
-── Attaching packages ─────────────────────────────── tidyverse 1.3.1 ──
-✔ ggplot2 3.3.5      ✔ purrr   0.3.5 
-✔ tibble  3.1.8      ✔ dplyr   1.0.10
-✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-✔ readr   2.0.1      ✔ forcats 0.5.1 
-── Conflicts ────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShoZXJlKVxuYGBgIn0= -->
-<pre class="r"><code>library(here)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiaGVyZSgpIHN0YXJ0cyBhdCAvaG9tZS9vaGJlcm4yMC9CaW9TdGF0c19GYWxsMjIvQmVybmllcl9Ib21ld29ya1xuIn0= -->
-<pre><code>here() starts at /home/ohbern20/BioStats_Fall22/Bernier_Homework</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Now I will suck in my data</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuREYgPC0gcmVhZC5jc3YoaGVyZShcIkRhdGFcIiwgXCJkYXlfb25lX2RhdGFfZm9yX2hvbWV3b3JrMTMuY3N2XCIpKVxuYGBgIn0= -->
-<pre class="r"><code>DF &lt;- read.csv(here(&quot;Data&quot;, &quot;day_one_data_for_homework13.csv&quot;))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Now I will view my data in a new tab</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuVmlldyhERikgI2NhbiBzZWUgdGhhdCBSIGNoYW5nZWQgdGhlIGNvbHVtbiBoZWFkZXJzIHRoYXQgaGFkIHNwZWNpYWwgY2hhcmFjdGVycy9zcGFjZXMgdG8gaW5jbHVkZSBhIHBlcmlvZFxuYGBgIn0= -->
-<pre class="r"><code>View(DF) #can see that R changed the column headers that had special characters/spaces to include a period</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Now I will use the names() function (hint - chapter 2) to change the column names to, in order from left to right: Name, Date, Part, Tree_num, Species, leaf_length, leaf_width, leaf_units</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoREYpICNsZXQncyBzZWUgdGhlIG5hbWVzIHdlIGhhdmVcbmBgYCJ9 -->
-<pre class="r"><code>names(DF) #let&#39;s see the names we have</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiTmFtZVwiICAgICAgICAgXCJEYXRlXCIgICAgICAgICBcIlBhcnRcIiAgICAgICAgIFwiVHJlZS4uXCIgICAgICBcbls1XSBcIlRyZWUuc3BlY2llc1wiIFwiTGVhZi5sZW5ndGhcIiAgXCJsZWFmLndpZHRoXCIgICBcImxlYWZfdW5pdHNcIiAgXG4ifQ== -->
-<pre><code>[1] &quot;Name&quot;         &quot;Date&quot;         &quot;Part&quot;         &quot;Tree..&quot;      
-[5] &quot;Tree.species&quot; &quot;Leaf.length&quot;  &quot;leaf.width&quot;   &quot;leaf_units&quot;  </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoREYpIDwtIGMoXCJOYW1lXCIsIFwiRGF0ZVwiLCBcIlBhcnRcIiwgXCJUcmVlX251bVwiLCBcIlNwZWNpZXNcIiwgXCJsZWFmX2xlbmd0aFwiLCBcImxlYWZfd2lkdGhcIiwgIFwibGVhZl91bml0c1wiKVxuXG5uYW1lcyhERikgI2NhbiBzZWUgdGhlIGFsbCB0aGUgbmFtZXMgd2VyZSBjaGFuZ2VkIHRvIGhvdyBJIHdhbnQgdGhlbSEgXG5gYGAifQ== -->
-<pre class="r"><code>names(DF) &lt;- c(&quot;Name&quot;, &quot;Date&quot;, &quot;Part&quot;, &quot;Tree_num&quot;, &quot;Species&quot;, &quot;leaf_length&quot;, &quot;leaf_width&quot;,  &quot;leaf_units&quot;)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuREYgPC0gcmVhZC5jc3YoaGVyZShcXERhdGFcXCwgXFxkYXlfb25lX2RhdGFfZm9yX2hvbWV3b3JrMTMuY3N2XFwpKVxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+DF &lt;- read.csv(here(\Data\, \day_one_data_for_homework13.csv\))</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+Now I will view my data in a new tab
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuVmlldyhERikgI2NhbiBzZWUgdGhhdCBSIGNoYW5nZWQgdGhlIGNvbHVtbiBoZWFkZXJzIHRoYXQgaGFkIHNwZWNpYWwgY2hhcmFjdGVycy9zcGFjZXMgdG8gaW5jbHVkZSBhIHBlcmlvZFxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+View(DF) #can see that R changed the column headers that had special characters/spaces to include a period</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+Now I will use the names() function (hint - chapter 2) to change the column names to, in order from left to right: Name, Date, Part, Tree_num, Species, leaf_length, leaf_width, leaf_units
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubmFtZXMoREYpICNsZXQncyBzZWUgdGhlIG5hbWVzIHdlIGhhdmVcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+names(DF) #let&#39;s see the names we have</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcTmFtZVxcICAgICAgICAgXFxEYXRlXFwgICAgICAgICBcXFBhcnRcXCAgICAgICAgIFxcVHJlZS4uXFwgICAgICBcbls1XSBcXFRyZWUuc3BlY2llc1xcIFxcTGVhZi5sZW5ndGhcXCAgXFxsZWFmLndpZHRoXFwgICBcXGxlYWZfdW5pdHNcXCAgXG4ifQ== --&gt;
+</code></pre>
+<p>[1]       .. <br />
+[5] .species .length  .width  _units </p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubmFtZXMoREYpIDwtIGMoXFxOYW1lXFwsIFxcRGF0ZVxcLCBcXFBhcnRcXCwgXFxUcmVlX251bVxcLCBcXFNwZWNpZXNcXCwgXFxsZWFmX2xlbmd0aFxcLCBcXGxlYWZfd2lkdGhcXCwgIFxcbGVhZl91bml0c1xcKVxuXG5uYW1lcyhERikgI2NhbiBzZWUgdGhlIGFsbCB0aGUgbmFtZXMgd2VyZSBjaGFuZ2VkIHRvIGhvdyBJIHdhbnQgdGhlbSEgXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+names(DF) &lt;- c(\Name\, \Date\, \Part\, \Tree_num\, \Species\, \leaf_length\, \leaf_width\,  \leaf_units\)
 
 names(DF) #can see the all the names were changed to how I want them! </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiTmFtZVwiICAgICAgICBcIkRhdGVcIiAgICAgICAgXCJQYXJ0XCIgICAgICAgIFwiVHJlZV9udW1cIiAgIFxuWzVdIFwiU3BlY2llc1wiICAgICBcImxlYWZfbGVuZ3RoXCIgXCJsZWFmX3dpZHRoXCIgIFwibGVhZl91bml0c1wiIFxuIn0= -->
-<pre><code>[1] &quot;Name&quot;        &quot;Date&quot;        &quot;Part&quot;        &quot;Tree_num&quot;   
-[5] &quot;Species&quot;     &quot;leaf_length&quot; &quot;leaf_width&quot;  &quot;leaf_units&quot; </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Notice that some of the leaf measurements are in inches, and some are in metric units. Write code that selects just the rows of data that are in English units (inches) and that saves them to a new data frame called “English”</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuRW5nbGlzaCA8LSBERiAlPiVcbiAgZmlsdGVyKGxlYWZfdW5pdHMgPT0gXCJpbmNoZXNcIilcbmBgYCJ9 -->
-<pre class="r"><code>English &lt;- DF %&gt;%
-  filter(leaf_units == &quot;inches&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Now notice that the dates have been entered in several formats, and that for one person, the years associated with the dates are incorrect. Write code that collects all of the data for which the dates have been formatted in the same way together into a single data frame and call it “Uniform_dates”</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuVW5pZm9ybV9kYXRlcyA8LSBERiAlPiVcbiAgZmlsdGVyKERhdGUgPT0gXCI4LzI0LzIwMjJcIilcbmBgYCJ9 -->
-<pre class="r"><code>Uniform_dates &lt;- DF %&gt;%
-  filter(Date == &quot;8/24/2022&quot;)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcTmFtZVxcICAgICAgICBcXERhdGVcXCAgICAgICAgXFxQYXJ0XFwgICAgICAgIFxcVHJlZV9udW1cXCAgIFxuWzVdIFxcU3BlY2llc1xcICAgICBcXGxlYWZfbGVuZ3RoXFwgXFxsZWFmX3dpZHRoXFwgIFxcbGVhZl91bml0c1xcIFxuIn0= --&gt;
+</code></pre>
+<p>[1]       _num <br />
+[5]   _length _width  _units </p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+Notice that some of the leaf measurements are in inches, and some are in metric units. Write code that selects just the rows of data that are in English units (inches) and that saves them to a new data frame called &quot;English&quot;
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuRW5nbGlzaCA8LSBERiAlPiVcbiAgZmlsdGVyKGxlYWZfdW5pdHMgPT0gXFxpbmNoZXNcXClcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+English &lt;- DF %&gt;%
+  filter(leaf_units == \inches\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+Now notice that the dates have been entered in several formats, and that for one person, the years associated with the dates are incorrect. Write code that collects all of the data for which the dates have been formatted in the same way together into a single data frame and call it &quot;Uniform_dates&quot;
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuVW5pZm9ybV9kYXRlcyA8LSBERiAlPiVcbiAgZmlsdGVyKERhdGUgPT0gXFw4LzI0LzIwMjJcXClcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+Uniform_dates &lt;- DF %&gt;%
+  filter(Date == \8/24/2022\)</code></pre>
+<p>```</p>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->

@@ -223,28 +223,11 @@ pre code {
 <p>First, I will set up my workspace</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdCA9IGxzKCkpXG5saWJyYXJ5KGhlcmUpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdCA9IGxzKCkpXG5saWJyYXJ5KGhlcmUpXG5saWJyYXJ5KGRwbHlyKVxuYGBgIn0= -->
 <pre class="r"><code>rm(list = ls())
-library(here)</code></pre>
+library(here)
+library(dplyr)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiaGVyZSgpIHN0YXJ0cyBhdCAvaG9tZS9vaGJlcm4yMC9CaW9TdGF0c19GYWxsMjIvQmVybmllcl9Ib21ld29ya1xuIn0= -->
-<pre><code>here() starts at /home/ohbern20/BioStats_Fall22/Bernier_Homework</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cilcbmBgYCJ9 -->
-<pre class="r"><code>library(dplyr)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYZHBseXLigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnN0YXRz4oCZOlxuXG4gICAgZmlsdGVyLCBsYWdcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmJhc2XigJk6XG5cbiAgICBpbnRlcnNlY3QsIHNldGRpZmYsIHNldGVxdWFsLCB1bmlvblxuIn0= -->
-<pre><code>
-Attaching package: ‘dplyr’
-
-The following objects are masked from ‘package:stats’:
-
-    filter, lag
-
-The following objects are masked from ‘package:base’:
-
-    intersect, setdiff, setequal, union</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Now I will import my data</p>
@@ -254,15 +237,6 @@ The following objects are masked from ‘package:base’:
 <pre class="r"><code>DF &lt;- read.csv(here(&quot;Data&quot;, &quot;drug_resistance.csv&quot;)) #run without stringsAsFactors 
 summary(DF) #get summary statistics for the data</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICBUcmVhdG1lbnQgICAgICAgICAgICBQbGF0ZV9uICAgICAgIGNvbG9ueS5jb3VudCAgICB0ZWNoLm5hbWUgICAgICAgIFxuIExlbmd0aDozMCAgICAgICAgICBNaW4uICAgOiAxLjAwICAgTWluLiAgIDogMC4wMCAgIExlbmd0aDozMCAgICAgICAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgICAxc3QgUXUuOiA4LjI1ICAgMXN0IFF1LjogNC4yNSAgIENsYXNzIDpjaGFyYWN0ZXIgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNZWRpYW4gOjE1LjUwICAgTWVkaWFuIDoxMy41MCAgIE1vZGUgIDpjaGFyYWN0ZXIgIFxuICAgICAgICAgICAgICAgICAgICBNZWFuICAgOjE1LjUwICAgTWVhbiAgIDoxMy42MyAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAzcmQgUXUuOjIyLjc1ICAgM3JkIFF1LjoyMS43NSAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICBNYXguICAgOjMwLjAwICAgTWF4LiAgIDozMS4wMCAgICAgICAgICAgICAgICAgICAgIFxuIn0= -->
-<pre><code>  Treatment            Plate_n       colony.count    tech.name        
- Length:30          Min.   : 1.00   Min.   : 0.00   Length:30         
- Class :character   1st Qu.: 8.25   1st Qu.: 4.25   Class :character  
- Mode  :character   Median :15.50   Median :13.50   Mode  :character  
-                    Mean   :15.50   Mean   :13.63                     
-                    3rd Qu.:22.75   3rd Qu.:21.75                     
-                    Max.   :30.00   Max.   :31.00                     </code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Now I will try importing the data with <code>stringsAsFactors = TRUE</code></p>
@@ -272,122 +246,185 @@ summary(DF) #get summary statistics for the data</code></pre>
 <pre class="r"><code>DF &lt;- read.csv(here(&quot;Data&quot;, &quot;drug_resistance.csv&quot;), stringsAsFactors = TRUE)
 summary(DF)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgIFRyZWF0bWVudCAgICBQbGF0ZV9uICAgICAgIGNvbG9ueS5jb3VudCAgIHRlY2gubmFtZSBcbiBjb250cm9sIDo3ICAgTWluLiAgIDogMS4wMCAgIE1pbi4gICA6IDAuMDAgICBiZWNjYTogMiAgXG4gZHJ1ZyB4IDI6NyAgIDFzdCBRdS46IDguMjUgICAxc3QgUXUuOiA0LjI1ICAgQmVjY2E6IDQgIFxuIGRydWcgeCAzOjcgICBNZWRpYW4gOjE1LjUwICAgTWVkaWFuIDoxMy41MCAgIGJyYWluOiAxICBcbiBDb250cm9sIDoyICAgTWVhbiAgIDoxNS41MCAgIE1lYW4gICA6MTMuNjMgICBicmlhbjogMyAgXG4gZHJ1ZzIgICA6MiAgIDNyZCBRdS46MjIuNzUgICAzcmQgUXUuOjIxLjc1ICAgQnJpYW46IDMgIFxuIGRydWczICAgOjIgICBNYXguICAgOjMwLjAwICAgTWF4LiAgIDozMS4wMCAgIGpvc2UgOjEwICBcbiAoT3RoZXIpIDozICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNYXJ5IDogNyAgXG4ifQ== -->
-<pre><code>    Treatment    Plate_n       colony.count   tech.name 
- control :7   Min.   : 1.00   Min.   : 0.00   becca: 2  
- drug x 2:7   1st Qu.: 8.25   1st Qu.: 4.25   Becca: 4  
- drug x 3:7   Median :15.50   Median :13.50   brain: 1  
- Control :2   Mean   :15.50   Mean   :13.63   brian: 3  
- drug2   :2   3rd Qu.:22.75   3rd Qu.:21.75   Brian: 3  
- drug3   :2   Max.   :30.00   Max.   :31.00   jose :10  
- (Other) :3                                   Mary : 7  </code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>I can see from that when the data was imported with <code>stringsAsFactors = TRUE</code> the summary statistics told me the different levels for the variables that were initially interpreted as character/string data (Treatment and tech.name). However, when these variables were sucked in as factor data, the different spellings of each observation were interpreted as different levels of the variable.</p>
 <p>Now I will examine the different levels of the Treatment and tech.name variables</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGV2ZWxzKERGJFRyZWF0bWVudCkgI0kgY2FuIHNlZSB0aGF0IHRoZXJlIGFyZSBtdWx0aXBsZSB2ZXJzaW9ucyBvZiBlYWNoIGNhdGVnb3J5LCBzbyBJIG5lZWQgdG8gZml4IHRoYXRcbmBgYCJ9 -->
-<pre class="r"><code>levels(DF$Treatment) #I can see that there are multiple versions of each category, so I need to fix that</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGV2ZWxzKERGJFRyZWF0bWVudCkgI0kgY2FuIHNlZSB0aGF0IHRoZXJlIGFyZSBtdWx0aXBsZSB2ZXJzaW9ucyBvZiBlYWNoIGNhdGVnb3J5LCBzbyBJIG5lZWQgdG8gZml4IHRoYXRcblxuYGBgIn0= -->
+<pre class="r"><code>levels(DF$Treatment) #I can see that there are multiple versions of each category, so I need to fix that
+</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiY2FudHJvbFwiICBcImNvbnRyb2xcIiAgXCJDb250cm9sXCIgIFwiZHJ1ZyB4IDJcIiBcImRydWcgeCAzXCIgXCJEcnVnIHggM1wiXG5bN10gXCJkcnVnMlwiICAgIFwiZHJ1ZzNcIiAgICBcIkRydWd4MlwiICBcbiJ9 -->
-<pre><code>[1] &quot;cantrol&quot;  &quot;control&quot;  &quot;Control&quot;  &quot;drug x 2&quot; &quot;drug x 3&quot; &quot;Drug x 3&quot;
-[7] &quot;drug2&quot;    &quot;drug3&quot;    &quot;Drugx2&quot;  </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGV2ZWxzKERGJHRlY2gubmFtZSkgI3RoZXJlIGFyZSBhbHNvIG11bHRpcGxlIHNwZWxsaW5ncyBoZXJlXG5gYGAifQ== -->
-<pre class="r"><code>levels(DF$tech.name) #there are also multiple spellings here</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiYmVjY2FcIiBcIkJlY2NhXCIgXCJicmFpblwiIFwiYnJpYW5cIiBcIkJyaWFuXCIgXCJqb3NlXCIgIFwiTWFyeVwiIFxuIn0= -->
-<pre><code>[1] &quot;becca&quot; &quot;Becca&quot; &quot;brain&quot; &quot;brian&quot; &quot;Brian&quot; &quot;jose&quot;  &quot;Mary&quot; </code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiY2FudHJvbFwiICBcImNvbnRyb2xcIiAgXCJDb250cm9sXCIgIFwiZHJ1ZyB4IDJcIiBcImRydWcgeCAzXCIgXCJEcnVnIHggM1wiIFwiZHJ1ZzJcIiAgICBcImRydWczXCIgICBcbls5XSBcIkRydWd4MlwiICBcbiJ9 -->
+<pre><code>[1] &quot;cantrol&quot;  &quot;control&quot;  &quot;Control&quot;  &quot;drug x 2&quot; &quot;drug x 3&quot; &quot;Drug x 3&quot; &quot;drug2&quot;    &quot;drug3&quot;   
+[9] &quot;Drugx2&quot;  </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Now I will clean up the Treatment variable</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZml4IDwtIHdoaWNoKERGJFRyZWF0bWVudCA9PSBcImNhbnRyb2xcIiB8IERGJFRyZWF0bWVudCA9PSBcIkNvbnRyb2xcIikgI3RlbGwgUiB0aGF0IFwiY2FudHJvbFwiIGFuZCBcIkNvbnRyb2xcIiBhcmUgd3JvbmdcblxuREYkVHJlYXRtZW50W2ZpeF08LSBcImNvbnRyb2xcIiAjYXNzaWduIHRoZSB3cm9uZyB2ZXJzaW9ucyB0byBcImNvbnRyb2xcIlxudW5pcXVlKERGJFRyZWF0bWVudCkgI2NhbiBzZWUgdGhhdCB0aGV5IGFyZSBub3cgbGFiZWxlZCBhcyBcImNvbnRyb2xcIiBcbmBgYCJ9 -->
-<pre class="r"><code>fix &lt;- which(DF$Treatment == &quot;cantrol&quot; | DF$Treatment == &quot;Control&quot;) #tell R that &quot;cantrol&quot; and &quot;Control&quot; are wrong
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZml4IDwtIHdoaWNoKERGJFRyZWF0bWVudCA9PSBcXGNhbnRyb2xcXCB8IERGJFRyZWF0bWVudCA9PSBcXENvbnRyb2xcXCkgI3RlbGwgUiB0aGF0IFxcY2FudHJvbFxcIGFuZCBcXENvbnRyb2xcXCBhcmUgd3JvbmdcblxuREYkVHJlYXRtZW50W2ZpeF08LSBcXGNvbnRyb2xcXCAjYXNzaWduIHRoZSB3cm9uZyB2ZXJzaW9ucyB0byBcXGNvbnRyb2xcXFxudW5pcXVlKERGJFRyZWF0bWVudCkgI2NhbiBzZWUgdGhhdCB0aGV5IGFyZSBub3cgbGFiZWxlZCBhcyBcXGNvbnRyb2xcXCBcbmBgYFxuYGBgIn0= -->
+<pre class="r"><code>```r
+fix &lt;- which(DF$Treatment == \cantrol\ | DF$Treatment == \Control\) #tell R that \cantrol\ and \Control\ are wrong
 
-DF$Treatment[fix]&lt;- &quot;control&quot; #assign the wrong versions to &quot;control&quot;
-unique(DF$Treatment) #can see that they are now labeled as &quot;control&quot; </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIGNvbnRyb2wgIGRydWcgeCAyIERydWd4MiAgIGRydWcyICAgIGRydWczICAgIGRydWcgeCAzIERydWcgeCAzXG45IExldmVsczogY2FudHJvbCBjb250cm9sIENvbnRyb2wgZHJ1ZyB4IDIgZHJ1ZyB4IDMgRHJ1ZyB4IDMgLi4uIERydWd4MlxuIn0= -->
-<pre><code>[1] control  drug x 2 Drugx2   drug2    drug3    drug x 3 Drug x 3
-9 Levels: cantrol control Control drug x 2 drug x 3 Drug x 3 ... Drugx2</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI25vdyBJIHdpbGwgZml4IHRoZSBkcnVnMiBvYnNlcnZhdGlvbnNcbndyb25nIDwtIHdoaWNoKERGJFRyZWF0bWVudCA9PSBcImRydWcgeCAyXCIgfCBERiRUcmVhdG1lbnQgPT0gXCJEcnVneDJcIikgI3RlbGwgUiB0aGF0IFwiZHJ1ZyB4IDJcIiBhbmQgXCJEcnVnMlwiIGFyZSB3cm9uZ1xuXG5ERiRUcmVhdG1lbnRbd3JvbmddPC0gXCJkcnVnMlwiICNhc3NpZ24gdGhlIHdyb25nIHZlcnNpb25zIHRvIFwiZHJ1ZzJcIlxudW5pcXVlKERGJFRyZWF0bWVudCkgI2NhbiBzZWUgdGhhdCB0aGV5IGFyZSBub3cgbGFiZWxlZCBhcyBcImRydWcyXCIgXG5gYGAifQ== -->
-<pre class="r"><code>#now I will fix the drug2 observations
-wrong &lt;- which(DF$Treatment == &quot;drug x 2&quot; | DF$Treatment == &quot;Drugx2&quot;) #tell R that &quot;drug x 2&quot; and &quot;Drug2&quot; are wrong
+DF$Treatment[fix]&lt;- \control\ #assign the wrong versions to \control\
+unique(DF$Treatment) #can see that they are now labeled as \control\ </code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
 
-DF$Treatment[wrong]&lt;- &quot;drug2&quot; #assign the wrong versions to &quot;drug2&quot;
-unique(DF$Treatment) #can see that they are now labeled as &quot;drug2&quot; </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIGNvbnRyb2wgIGRydWcyICAgIGRydWczICAgIGRydWcgeCAzIERydWcgeCAzXG45IExldmVsczogY2FudHJvbCBjb250cm9sIENvbnRyb2wgZHJ1ZyB4IDIgZHJ1ZyB4IDMgRHJ1ZyB4IDMgLi4uIERydWd4MlxuIn0= -->
-<pre><code>[1] control  drug2    drug3    drug x 3 Drug x 3
-9 Levels: cantrol control Control drug x 2 drug x 3 Drug x 3 ... Drugx2</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2FuZCBub3cgZml4IGRydWczXG5iYWQgPC0gd2hpY2goREYkVHJlYXRtZW50ID09IFwiZHJ1ZyB4IDNcIiB8IERGJFRyZWF0bWVudCA9PSBcIkRydWcgeCAzXCIpXG5ERiRUcmVhdG1lbnRbYmFkXSA8LSBcImRydWczXCJcbnVuaXF1ZShERiRUcmVhdG1lbnQpICNub3cgdGhlIG9ubHkgdmVyc2lvbnMgb2YgdHJlYXRtZW50IGFyZSBjb250cm9sLCBkcnVnMiwgYW5kIGRydWczIFxuYGBgIn0= -->
-<pre class="r"><code>#and now fix drug3
-bad &lt;- which(DF$Treatment == &quot;drug x 3&quot; | DF$Treatment == &quot;Drug x 3&quot;)
-DF$Treatment[bad] &lt;- &quot;drug3&quot;
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIGNvbnRyb2wgIGRydWcgeCAyIERydWd4MiAgIGRydWcyICAgIGRydWczICAgIGRydWcgeCAzIERydWcgeCAzXG45IExldmVsczogY2FudHJvbCBjb250cm9sIENvbnRyb2wgZHJ1ZyB4IDIgZHJ1ZyB4IDMgRHJ1ZyB4IDMgLi4uIERydWd4MlxuIn0= --&gt;
+</code></pre>
+<p>[1] control drug x 2 Drugx2 drug2 drug3 drug x 3 Drug x 3 9 Levels: cantrol control Control drug x 2 drug x 3 Drug x 3 … Drugx2</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuI25vdyBJIHdpbGwgZml4IHRoZSBkcnVnMiBvYnNlcnZhdGlvbnNcbndyb25nIDwtIHdoaWNoKERGJFRyZWF0bWVudCA9PSBcXGRydWcgeCAyXFwgfCBERiRUcmVhdG1lbnQgPT0gXFxEcnVneDJcXCkgI3RlbGwgUiB0aGF0IFxcZHJ1ZyB4IDJcXCBhbmQgXFxEcnVnMlxcIGFyZSB3cm9uZ1xuXG5ERiRUcmVhdG1lbnRbd3JvbmddPC0gXFxkcnVnMlxcICNhc3NpZ24gdGhlIHdyb25nIHZlcnNpb25zIHRvIFxcZHJ1ZzJcXFxudW5pcXVlKERGJFRyZWF0bWVudCkgI2NhbiBzZWUgdGhhdCB0aGV5IGFyZSBub3cgbGFiZWxlZCBhcyBcXGRydWcyXFwgXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+#now I will fix the drug2 observations
+wrong &lt;- which(DF$Treatment == \drug x 2\ | DF$Treatment == \Drugx2\) #tell R that \drug x 2\ and \Drug2\ are wrong
+
+DF$Treatment[wrong]&lt;- \drug2\ #assign the wrong versions to \drug2\
+unique(DF$Treatment) #can see that they are now labeled as \drug2\ </code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIGNvbnRyb2wgIGRydWcyICAgIGRydWczICAgIGRydWcgeCAzIERydWcgeCAzXG45IExldmVsczogY2FudHJvbCBjb250cm9sIENvbnRyb2wgZHJ1ZyB4IDIgZHJ1ZyB4IDMgRHJ1ZyB4IDMgLi4uIERydWd4MlxuIn0= --&gt;
+</code></pre>
+<p>[1] control drug2 drug3 drug x 3 Drug x 3 9 Levels: cantrol control Control drug x 2 drug x 3 Drug x 3 … Drugx2</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuI2FuZCBub3cgZml4IGRydWczXG5iYWQgPC0gd2hpY2goREYkVHJlYXRtZW50ID09IFxcZHJ1ZyB4IDNcXCB8IERGJFRyZWF0bWVudCA9PSBcXERydWcgeCAzXFwpXG5ERiRUcmVhdG1lbnRbYmFkXSA8LSBcXGRydWczXFxcbnVuaXF1ZShERiRUcmVhdG1lbnQpICNub3cgdGhlIG9ubHkgdmVyc2lvbnMgb2YgdHJlYXRtZW50IGFyZSBjb250cm9sLCBkcnVnMiwgYW5kIGRydWczIFxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+#and now fix drug3
+bad &lt;- which(DF$Treatment == \drug x 3\ | DF$Treatment == \Drug x 3\)
+DF$Treatment[bad] &lt;- \drug3\
 unique(DF$Treatment) #now the only versions of treatment are control, drug2, and drug3 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIGNvbnRyb2wgZHJ1ZzIgICBkcnVnMyAgXG45IExldmVsczogY2FudHJvbCBjb250cm9sIENvbnRyb2wgZHJ1ZyB4IDIgZHJ1ZyB4IDMgRHJ1ZyB4IDMgLi4uIERydWd4MlxuIn0= -->
-<pre><code>[1] control drug2   drug3  
-9 Levels: cantrol control Control drug x 2 drug x 3 Drug x 3 ... Drugx2</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Now I need to look at the tech.name variables</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2ZpcnN0IGxldCBtZSBsb29rIGF0IHRoZSB2ZXJzaW9uIG9mIHRlY2gubmFtZSBhZ2FpbiwgYW5kIHdoaWxlIEknbSBhdCBpdCBsZXQgbWUgY2hhbmdlIHRoZSBuYW1lIG9mIHRoZSB2YXJpYWJsZSBhcyB3ZWxsIChhbmQgdGhlIG5hbWUgb2YgY29sb255LmNvdW50KVxuREYgPC0gREYgJT4lIFxuICByZW5hbWUoXG4gICAgdGVjaF9uYW1lID0gdGVjaC5uYW1lLFxuICAgIGNvbG9ueV9jb3VudCA9IGNvbG9ueS5jb3VudClcbm5hbWVzKERGKVxuYGBgIn0= -->
-<pre class="r"><code>#first let me look at the version of tech.name again, and while I&#39;m at it let me change the name of the variable as well (and the name of colony.count)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIGNvbnRyb2wgZHJ1ZzIgICBkcnVnMyAgXG45IExldmVsczogY2FudHJvbCBjb250cm9sIENvbnRyb2wgZHJ1ZyB4IDIgZHJ1ZyB4IDMgRHJ1ZyB4IDMgLi4uIERydWd4MlxuIn0= --&gt;
+</code></pre>
+<p>[1] control drug2 drug3<br />
+9 Levels: cantrol control Control drug x 2 drug x 3 Drug x 3 … Drugx2</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+Now I need to look at the tech.name variables
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuI2ZpcnN0IGxldCBtZSBsb29rIGF0IHRoZSB2ZXJzaW9uIG9mIHRlY2gubmFtZSBhZ2FpbiwgYW5kIHdoaWxlIEknbSBhdCBpdCBsZXQgbWUgY2hhbmdlIHRoZSBuYW1lIG9mIHRoZSB2YXJpYWJsZSBhcyB3ZWxsIChhbmQgdGhlIG5hbWUgb2YgY29sb255LmNvdW50KVxuREYgPC0gREYgJT4lIFxuICByZW5hbWUoXG4gICAgdGVjaF9uYW1lID0gdGVjaC5uYW1lLFxuICAgIGNvbG9ueV9jb3VudCA9IGNvbG9ueS5jb3VudClcbm5hbWVzKERGKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+#first let me look at the version of tech.name again, and while I&#39;m at it let me change the name of the variable as well (and the name of colony.count)
 DF &lt;- DF %&gt;% 
   rename(
     tech_name = tech.name,
     colony_count = colony.count)
 names(DF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVHJlYXRtZW50XCIgICAgXCJQbGF0ZV9uXCIgICAgICBcImNvbG9ueV9jb3VudFwiIFwidGVjaF9uYW1lXCIgICBcbiJ9 -->
-<pre><code>[1] &quot;Treatment&quot;    &quot;Plate_n&quot;      &quot;colony_count&quot; &quot;tech_name&quot;   </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGV2ZWxzKERGJHRlY2hfbmFtZSlcbmBgYCJ9 -->
-<pre class="r"><code>levels(DF$tech_name)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiYmVjY2FcIiBcIkJlY2NhXCIgXCJicmFpblwiIFwiYnJpYW5cIiBcIkJyaWFuXCIgXCJqb3NlXCIgIFwiTWFyeVwiIFxuIn0= -->
-<pre><code>[1] &quot;becca&quot; &quot;Becca&quot; &quot;brain&quot; &quot;brian&quot; &quot;Brian&quot; &quot;jose&quot;  &quot;Mary&quot; </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Now I will modify the versions of tech_name</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubm8gPC0gd2hpY2goREYkdGVjaF9uYW1lID09IFwiYmVjY2FcIilcbkRGJHRlY2hfbmFtZVtub10gPC0gXCJCZWNjYVwiXG51bmlxdWUoREYkdGVjaF9uYW1lKVxuYGBgIn0= -->
-<pre class="r"><code>no &lt;- which(DF$tech_name == &quot;becca&quot;)
-DF$tech_name[no] &lt;- &quot;Becca&quot;
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcVHJlYXRtZW50XFwgICAgXFxQbGF0ZV9uXFwgICAgICBcXGNvbG9ueV9jb3VudFxcIFxcdGVjaF9uYW1lXFwgICBcbiJ9 --&gt;
+</code></pre>
+<p>[1]   _n  _count _name </p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubGV2ZWxzKERGJHRlY2hfbmFtZSlcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+levels(DF$tech_name)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcYmVjY2FcXCBcXEJlY2NhXFwgXFxicmFpblxcIFxcYnJpYW5cXCBcXEJyaWFuXFwgXFxqb3NlXFwgIFxcTWFyeVxcIFxuIn0= --&gt;
+</code></pre>
+<p>[1]         </p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+Now I will modify the versions of tech_name
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubm8gPC0gd2hpY2goREYkdGVjaF9uYW1lID09IFxcYmVjY2FcXClcbkRGJHRlY2hfbmFtZVtub10gPC0gXFxCZWNjYVxcXG51bmlxdWUoREYkdGVjaF9uYW1lKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+no &lt;- which(DF$tech_name == \becca\)
+DF$tech_name[no] &lt;- \Becca\
 unique(DF$tech_name)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIGpvc2UgIEJyaWFuIGJyaWFuIE1hcnkgIEJlY2NhIGJyYWluXG5MZXZlbHM6IGJlY2NhIEJlY2NhIGJyYWluIGJyaWFuIEJyaWFuIGpvc2UgTWFyeVxuIn0= -->
-<pre><code>[1] jose  Brian brian Mary  Becca brain
-Levels: becca Becca brain brian Brian jose Mary</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RvcCA8LSB3aGljaChERiR0ZWNoX25hbWUgPT0gXCJicmFpblwiIHwgREYkdGVjaF9uYW1lID09IFwiYnJpYW5cIilcbkRGJHRlY2hfbmFtZVtzdG9wXSA8LSBcIkJyaWFuXCJcbnVuaXF1ZShERiR0ZWNoX25hbWUpICNub3cgSSBvbmx5IHNlZSBvbmUgdmVyc2lvbiBvZiBlYWNoIG5hbWVcbmBgYCJ9 -->
-<pre class="r"><code>stop &lt;- which(DF$tech_name == &quot;brain&quot; | DF$tech_name == &quot;brian&quot;)
-DF$tech_name[stop] &lt;- &quot;Brian&quot;
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIGpvc2UgIEJyaWFuIGJyaWFuIE1hcnkgIEJlY2NhIGJyYWluXG5MZXZlbHM6IGJlY2NhIEJlY2NhIGJyYWluIGJyaWFuIEJyaWFuIGpvc2UgTWFyeVxuIn0= --&gt;
+</code></pre>
+<p>[1] jose Brian brian Mary Becca brain Levels: becca Becca brain brian Brian jose Mary</p>
+<pre><code>
+
+
+&lt;!-- rnb-output-end --&gt;
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc3RvcCA8LSB3aGljaChERiR0ZWNoX25hbWUgPT0gXFxicmFpblxcIHwgREYkdGVjaF9uYW1lID09IFxcYnJpYW5cXClcbkRGJHRlY2hfbmFtZVtzdG9wXSA8LSBcXEJyaWFuXFxcbnVuaXF1ZShERiR0ZWNoX25hbWUpICNub3cgSSBvbmx5IHNlZSBvbmUgdmVyc2lvbiBvZiBlYWNoIG5hbWVcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+stop &lt;- which(DF$tech_name == \brain\ | DF$tech_name == \brian\)
+DF$tech_name[stop] &lt;- \Brian\
 unique(DF$tech_name) #now I only see one version of each name</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIGpvc2UgIEJyaWFuIE1hcnkgIEJlY2NhXG5MZXZlbHM6IGJlY2NhIEJlY2NhIGJyYWluIGJyaWFuIEJyaWFuIGpvc2UgTWFyeVxuIn0= -->
-<pre><code>[1] jose  Brian Mary  Becca
-Levels: becca Becca brain brian Brian jose Mary</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIGpvc2UgIEJyaWFuIE1hcnkgIEJlY2NhXG5MZXZlbHM6IGJlY2NhIEJlY2NhIGJyYWluIGJyaWFuIEJyaWFuIGpvc2UgTWFyeVxuIn0= --&gt;
+</code></pre>
+<p>[1] jose Brian Mary Becca Levels: becca Becca brain brian Brian jose Mary ```</p>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>There should now only be one choice for each level of the Treatment and tech_name variables in the dataframe</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiVXNpbmcgZHBseXIgdG8gZml4IG1pc3Rha2VzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpJbiB0aGlzIGhvbWV3b3JrIEkgd2lsbCBwcmFjdGljZSBkcGx5ciBza2lsbHMgdG8gZml4IG1pc3Rha2VzIGluIGRhdGEgZnJhbWVzLgoKRmlyc3QsIEkgd2lsbCBzZXQgdXAgbXkgd29ya3NwYWNlCmBgYHtyfQpybShsaXN0ID0gbHMoKSkKbGlicmFyeShoZXJlKQpsaWJyYXJ5KGRwbHlyKQpgYGAKCgpOb3cgSSB3aWxsIGltcG9ydCBteSBkYXRhCmBgYHtyfQpERiA8LSByZWFkLmNzdihoZXJlKCJEYXRhIiwgImRydWdfcmVzaXN0YW5jZS5jc3YiKSkgI3J1biB3aXRob3V0IHN0cmluZ3NBc0ZhY3RvcnMgCnN1bW1hcnkoREYpICNnZXQgc3VtbWFyeSBzdGF0aXN0aWNzIGZvciB0aGUgZGF0YQpgYGAKTm93IEkgd2lsbCB0cnkgaW1wb3J0aW5nIHRoZSBkYXRhIHdpdGggYHN0cmluZ3NBc0ZhY3RvcnMgPSBUUlVFYApgYGB7cn0KREYgPC0gcmVhZC5jc3YoaGVyZSgiRGF0YSIsICJkcnVnX3Jlc2lzdGFuY2UuY3N2IiksIHN0cmluZ3NBc0ZhY3RvcnMgPSBUUlVFKQpzdW1tYXJ5KERGKQpgYGAKSSBjYW4gc2VlIGZyb20gdGhhdCB3aGVuIHRoZSBkYXRhIHdhcyBpbXBvcnRlZCB3aXRoIGBzdHJpbmdzQXNGYWN0b3JzID0gVFJVRWAgdGhlIHN1bW1hcnkgc3RhdGlzdGljcyB0b2xkIG1lIHRoZSBkaWZmZXJlbnQgbGV2ZWxzIGZvciB0aGUgdmFyaWFibGVzIHRoYXQgd2VyZSBpbml0aWFsbHkgaW50ZXJwcmV0ZWQgYXMgY2hhcmFjdGVyL3N0cmluZyBkYXRhIChUcmVhdG1lbnQgYW5kIHRlY2gubmFtZSkuIEhvd2V2ZXIsIHdoZW4gdGhlc2UgdmFyaWFibGVzIHdlcmUgc3Vja2VkIGluIGFzIGZhY3RvciBkYXRhLCB0aGUgZGlmZmVyZW50IHNwZWxsaW5ncyBvZiBlYWNoIG9ic2VydmF0aW9uIHdlcmUgaW50ZXJwcmV0ZWQgYXMgZGlmZmVyZW50IGxldmVscyBvZiB0aGUgdmFyaWFibGUuCgpOb3cgSSB3aWxsIGV4YW1pbmUgdGhlIGRpZmZlcmVudCBsZXZlbHMgb2YgdGhlIFRyZWF0bWVudCBhbmQgdGVjaC5uYW1lIHZhcmlhYmxlcyAKYGBge3J9CmxldmVscyhERiRUcmVhdG1lbnQpICNJIGNhbiBzZWUgdGhhdCB0aGVyZSBhcmUgbXVsdGlwbGUgdmVyc2lvbnMgb2YgZWFjaCBjYXRlZ29yeSwgc28gSSBuZWVkIHRvIGZpeCB0aGF0CgpsZXZlbHMoREYkdGVjaC5uYW1lKSAjdGhlcmUgYXJlIGFsc28gbXVsdGlwbGUgc3BlbGxpbmdzIGhlcmUKYGBgCgpOb3cgSSB3aWxsIGNsZWFuIHVwIHRoZSBUcmVhdG1lbnQgdmFyaWFibGUKYGBge3J9CmZpeCA8LSB3aGljaChERiRUcmVhdG1lbnQgPT0gImNhbnRyb2wiIHwgREYkVHJlYXRtZW50ID09ICJDb250cm9sIikgI3RlbGwgUiB0aGF0ICJjYW50cm9sIiBhbmQgIkNvbnRyb2wiIGFyZSB3cm9uZwoKREYkVHJlYXRtZW50W2ZpeF08LSAiY29udHJvbCIgI2Fzc2lnbiB0aGUgd3JvbmcgdmVyc2lvbnMgdG8gImNvbnRyb2wiCnVuaXF1ZShERiRUcmVhdG1lbnQpICNjYW4gc2VlIHRoYXQgdGhleSBhcmUgbm93IGxhYmVsZWQgYXMgImNvbnRyb2wiIAoKCiNub3cgSSB3aWxsIGZpeCB0aGUgZHJ1ZzIgb2JzZXJ2YXRpb25zCndyb25nIDwtIHdoaWNoKERGJFRyZWF0bWVudCA9PSAiZHJ1ZyB4IDIiIHwgREYkVHJlYXRtZW50ID09ICJEcnVneDIiKSAjdGVsbCBSIHRoYXQgImRydWcgeCAyIiBhbmQgIkRydWcyIiBhcmUgd3JvbmcKCkRGJFRyZWF0bWVudFt3cm9uZ108LSAiZHJ1ZzIiICNhc3NpZ24gdGhlIHdyb25nIHZlcnNpb25zIHRvICJkcnVnMiIKdW5pcXVlKERGJFRyZWF0bWVudCkgI2NhbiBzZWUgdGhhdCB0aGV5IGFyZSBub3cgbGFiZWxlZCBhcyAiZHJ1ZzIiIAoKI2FuZCBub3cgZml4IGRydWczCmJhZCA8LSB3aGljaChERiRUcmVhdG1lbnQgPT0gImRydWcgeCAzIiB8IERGJFRyZWF0bWVudCA9PSAiRHJ1ZyB4IDMiKQpERiRUcmVhdG1lbnRbYmFkXSA8LSAiZHJ1ZzMiCnVuaXF1ZShERiRUcmVhdG1lbnQpICNub3cgdGhlIG9ubHkgdmVyc2lvbnMgb2YgdHJlYXRtZW50IGFyZSBjb250cm9sLCBkcnVnMiwgYW5kIGRydWczIApgYGAKCk5vdyBJIG5lZWQgdG8gbG9vayBhdCB0aGUgdGVjaC5uYW1lIHZhcmlhYmxlcwpgYGB7cn0KI2ZpcnN0IGxldCBtZSBsb29rIGF0IHRoZSB2ZXJzaW9uIG9mIHRlY2gubmFtZSBhZ2FpbiwgYW5kIHdoaWxlIEknbSBhdCBpdCBsZXQgbWUgY2hhbmdlIHRoZSBuYW1lIG9mIHRoZSB2YXJpYWJsZSBhcyB3ZWxsIChhbmQgdGhlIG5hbWUgb2YgY29sb255LmNvdW50KQpERiA8LSBERiAlPiUgCiAgcmVuYW1lKAogICAgdGVjaF9uYW1lID0gdGVjaC5uYW1lLAogICAgY29sb255X2NvdW50ID0gY29sb255LmNvdW50KQpuYW1lcyhERikKCmxldmVscyhERiR0ZWNoX25hbWUpCmBgYAoKTm93IEkgd2lsbCBtb2RpZnkgdGhlIHZlcnNpb25zIG9mIHRlY2hfbmFtZQpgYGB7cn0Kbm8gPC0gd2hpY2goREYkdGVjaF9uYW1lID09ICJiZWNjYSIpCkRGJHRlY2hfbmFtZVtub10gPC0gIkJlY2NhIgp1bmlxdWUoREYkdGVjaF9uYW1lKQoKc3RvcCA8LSB3aGljaChERiR0ZWNoX25hbWUgPT0gImJyYWluIiB8IERGJHRlY2hfbmFtZSA9PSAiYnJpYW4iKQpERiR0ZWNoX25hbWVbc3RvcF0gPC0gIkJyaWFuIgp1bmlxdWUoREYkdGVjaF9uYW1lKSAjbm93IEkgb25seSBzZWUgb25lIHZlcnNpb24gb2YgZWFjaCBuYW1lCmBgYAoKClRoZXJlIHNob3VsZCBub3cgb25seSBiZSBvbmUgY2hvaWNlIGZvciBlYWNoIGxldmVsIG9mIHRoZSBUcmVhdG1lbnQgYW5kIHRlY2hfbmFtZSB2YXJpYWJsZXMgaW4gdGhlIGRhdGFmcmFtZQoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiVXNpbmcgZHBseXIgdG8gZml4IG1pc3Rha2VzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpJbiB0aGlzIGhvbWV3b3JrIEkgd2lsbCBwcmFjdGljZSBkcGx5ciBza2lsbHMgdG8gZml4IG1pc3Rha2VzIGluIGRhdGEgZnJhbWVzLgoKRmlyc3QsIEkgd2lsbCBzZXQgdXAgbXkgd29ya3NwYWNlCmBgYHtyfQpybShsaXN0ID0gbHMoKSkKbGlicmFyeShoZXJlKQpsaWJyYXJ5KGRwbHlyKQpgYGAKCgpOb3cgSSB3aWxsIGltcG9ydCBteSBkYXRhCmBgYHtyfQpERiA8LSByZWFkLmNzdihoZXJlKCJEYXRhIiwgImRydWdfcmVzaXN0YW5jZS5jc3YiKSkgI3J1biB3aXRob3V0IHN0cmluZ3NBc0ZhY3RvcnMgCnN1bW1hcnkoREYpICNnZXQgc3VtbWFyeSBzdGF0aXN0aWNzIGZvciB0aGUgZGF0YQpgYGAKTm93IEkgd2lsbCB0cnkgaW1wb3J0aW5nIHRoZSBkYXRhIHdpdGggYHN0cmluZ3NBc0ZhY3RvcnMgPSBUUlVFYApgYGB7cn0KREYgPC0gcmVhZC5jc3YoaGVyZSgiRGF0YSIsICJkcnVnX3Jlc2lzdGFuY2UuY3N2IiksIHN0cmluZ3NBc0ZhY3RvcnMgPSBUUlVFKQpzdW1tYXJ5KERGKQpgYGAKSSBjYW4gc2VlIGZyb20gdGhhdCB3aGVuIHRoZSBkYXRhIHdhcyBpbXBvcnRlZCB3aXRoIGBzdHJpbmdzQXNGYWN0b3JzID0gVFJVRWAgdGhlIHN1bW1hcnkgc3RhdGlzdGljcyB0b2xkIG1lIHRoZSBkaWZmZXJlbnQgbGV2ZWxzIGZvciB0aGUgdmFyaWFibGVzIHRoYXQgd2VyZSBpbml0aWFsbHkgaW50ZXJwcmV0ZWQgYXMgY2hhcmFjdGVyL3N0cmluZyBkYXRhIChUcmVhdG1lbnQgYW5kIHRlY2gubmFtZSkuIEhvd2V2ZXIsIHdoZW4gdGhlc2UgdmFyaWFibGVzIHdlcmUgc3Vja2VkIGluIGFzIGZhY3RvciBkYXRhLCB0aGUgZGlmZmVyZW50IHNwZWxsaW5ncyBvZiBlYWNoIG9ic2VydmF0aW9uIHdlcmUgaW50ZXJwcmV0ZWQgYXMgZGlmZmVyZW50IGxldmVscyBvZiB0aGUgdmFyaWFibGUuCgpOb3cgSSB3aWxsIGV4YW1pbmUgdGhlIGRpZmZlcmVudCBsZXZlbHMgb2YgdGhlIFRyZWF0bWVudCBhbmQgdGVjaC5uYW1lIHZhcmlhYmxlcyAKYGBge3J9CmxldmVscyhERiRUcmVhdG1lbnQpICNJIGNhbiBzZWUgdGhhdCB0aGVyZSBhcmUgbXVsdGlwbGUgdmVyc2lvbnMgb2YgZWFjaCBjYXRlZ29yeSwgc28gSSBuZWVkIHRvIGZpeCB0aGF0CgpsZXZlbHMoREYkdGVjaC5uYW1lKSAjdGhlcmUgYXJlIGFsc28gbXVsdGlwbGUgc3BlbGxpbmdzIGhlcmUKYGBgCgpOb3cgSSB3aWxsIGNsZWFuIHVwIHRoZSBUcmVhdG1lbnQgdmFyaWFibGUKYGBge3J9CmZpeCA8LSB3aGljaCAoREYkVHJlYXRtZW50ID09ICJjYW50cm9sIiB8IERGJFRyZWF0bWVudCA9PSAiQ29udHJvbCIpICN0ZWxsIFIgdGhhdCAiY2FudHJvbCIgYW5kICJDb250cm9sIiBhcmUgd3JvbmcKCkRGJFRyZWF0bWVudFtmaXhdPC0gImNvbnRyb2wiICNhc3NpZ24gdGhlIHdyb25nIHZlcnNpb25zIHRvICJjb250cm9sIgp1bmlxdWUoREYkVHJlYXRtZW50KSAjY2FuIHNlZSB0aGF0IHRoZXkgYXJlIG5vdyBsYWJlbGVkIGFzICJjb250cm9sIiAKCgojbm93IEkgd2lsbCBmaXggdGhlIGRydWcyIG9ic2VydmF0aW9ucwp3cm9uZyA8LSB3aGljaChERiRUcmVhdG1lbnQgPT0gImRydWcgeCAyIiB8IERGJFRyZWF0bWVudCA9PSAiRHJ1Z3gyIikgI3RlbGwgUiB0aGF0ICJkcnVnIHggMiIgYW5kICJEcnVnMiIgYXJlIHdyb25nCgpERiRUcmVhdG1lbnRbd3JvbmddPC0gImRydWcyIiAjYXNzaWduIHRoZSB3cm9uZyB2ZXJzaW9ucyB0byAiZHJ1ZzIiCnVuaXF1ZShERiRUcmVhdG1lbnQpICNjYW4gc2VlIHRoYXQgdGhleSBhcmUgbm93IGxhYmVsZWQgYXMgImRydWcyIiAKCiNhbmQgbm93IGZpeCBkcnVnMwpiYWQgPC0gd2hpY2goREYkVHJlYXRtZW50ID09ICJkcnVnIHggMyIgfCBERiRUcmVhdG1lbnQgPT0gIkRydWcgeCAzIikKREYkVHJlYXRtZW50W2JhZF0gPC0gImRydWczIgp1bmlxdWUoREYkVHJlYXRtZW50KSAjbm93IHRoZSBvbmx5IHZlcnNpb25zIG9mIHRyZWF0bWVudCBhcmUgY29udHJvbCwgZHJ1ZzIsIGFuZCBkcnVnMyAKYGBgCgpOb3cgSSBuZWVkIHRvIGxvb2sgYXQgdGhlIHRlY2gubmFtZSB2YXJpYWJsZXMKYGBge3J9CiNmaXJzdCBsZXQgbWUgbG9vayBhdCB0aGUgdmVyc2lvbiBvZiB0ZWNoLm5hbWUgYWdhaW4sIGFuZCB3aGlsZSBJJ20gYXQgaXQgbGV0IG1lIGNoYW5nZSB0aGUgbmFtZSBvZiB0aGUgdmFyaWFibGUgYXMgd2VsbCAoYW5kIHRoZSBuYW1lIG9mIGNvbG9ueS5jb3VudCkKREYgPC0gREYgJT4lIAogIHJlbmFtZSgKICAgIHRlY2hfbmFtZSA9IHRlY2gubmFtZSwKICAgIGNvbG9ueV9jb3VudCA9IGNvbG9ueS5jb3VudCkKbmFtZXMoREYpCgpsZXZlbHMoREYkdGVjaF9uYW1lKQpgYGAKCk5vdyBJIHdpbGwgbW9kaWZ5IHRoZSB2ZXJzaW9ucyBvZiB0ZWNoX25hbWUKYGBge3J9Cm5vIDwtIHdoaWNoKERGJHRlY2hfbmFtZSA9PSAiYmVjY2EiKQpERiR0ZWNoX25hbWVbbm9dIDwtICJCZWNjYSIKdW5pcXVlKERGJHRlY2hfbmFtZSkKCnN0b3AgPC0gd2hpY2goREYkdGVjaF9uYW1lID09ICJicmFpbiIgfCBERiR0ZWNoX25hbWUgPT0gImJyaWFuIikKREYkdGVjaF9uYW1lW3N0b3BdIDwtICJCcmlhbiIKdW5pcXVlKERGJHRlY2hfbmFtZSkgI25vdyBJIG9ubHkgc2VlIG9uZSB2ZXJzaW9uIG9mIGVhY2ggbmFtZQpgYGAKCgpUaGVyZSBzaG91bGQgbm93IG9ubHkgYmUgb25lIGNob2ljZSBmb3IgZWFjaCBsZXZlbCBvZiB0aGUgVHJlYXRtZW50IGFuZCB0ZWNoX25hbWUgdmFyaWFibGVzIGluIHRoZSBkYXRhZnJhbWUKCg==</div>
 
 
 

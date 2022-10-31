@@ -34,7 +34,7 @@ levels(DF$tech.name) #there are also multiple spellings here
 
 Now I will clean up the Treatment variable
 ```{r}
-fix <- which(DF$Treatment == "cantrol" | DF$Treatment == "Control") #tell R that "cantrol" and "Control" are wrong
+fix <- which (DF$Treatment == "cantrol" | DF$Treatment == "Control") #tell R that "cantrol" and "Control" are wrong
 
 DF$Treatment[fix]<- "control" #assign the wrong versions to "control"
 unique(DF$Treatment) #can see that they are now labeled as "control" 
