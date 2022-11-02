@@ -1,0 +1,111 @@
+---
+title: "Homework 26"
+output: html_notebook
+---
+
+Set things up 
+```{r}
+rm(list = ls())
+library(here)
+library(tidyverse)
+library(ggfortify)
+```
+
+Now let's pull in the data
+```{r}
+soil <- read.csv(here("Data", "soil_reduced-1.csv"), stringsAsFactors = TRUE)
+```
+
+Before we begin any analysis, we need to check our data for possible errors/outliers. Let's being with that
+
+A. Forest names
+```{r}
+levels(soil$Forest) #5 levels, looks good! 
+```
+
+B. Let's check soil organic matter and soil calcium
+
+Start with a histogram of soil organic matter
+```{r}
+ggplot(soil, aes(x = SOM_percent)) +
+  geom_histogram() #not one lone outlier, seems ok
+```
+
+Now check soil calcium
+```{r}
+ggplot(soil, aes(x = Ca_ppm)) +
+  geom_histogram() #looks reasonable
+```
+
+Let's also run a summary on all the variables 
+```{r}
+summary(soil) #pay attention to where max is wayyy higher than mean
+```
+
+
+## We'd like to ask the following questions from these data:
+
+### 1. Is there a relationship between Soil organic matter (SOM, %) and soil calcium (Ca_ppm)?
+
+We have already looked for outliers and mistakes in these variables
+
+Both variables are continuous 
+#### Plot relationships 
+```{r}
+ggplot(soil, aes(x = SOM_percent, y = Ca_ppm, color = Forest)) +
+  geom_point() +
+  theme_bw()
+```
+Guess relationship: From looking at the data it appears there may be a weak positive relationship between SOM and Ca
+
+Can I guess the slope or y intercept? 
+Total rise: 1000
+Total run: 53 
+Slope: 1000/53 = 18ish  
+Y intercept: 0ish, -5?  
+
+What statistical model fits these data?
+Both response and predictor are continuous, so linear regression seems appropriate
+
+So, let's construct the model
+```{r}
+SOM_Ca_mod <- lm(Ca_ppm ~ SOM_percent, soil)
+```
+
+Now I need to check the model assumptions before I can interpret the model 
+```{r}
+autoplot(SOM_Ca_mod) 
+
+#normal Q-Q plot shows that most of the data points fit normal dist
+#Residuals vs fitted shows that variance of residuals is kinda unequal (drop in line at low values, rather than straight line)
+```
+
+Based on my observaitons of the autoplot results, I am modestly comfortable that my data meet the lm() assumptions
+
+Now look at model outcome
+```{r}
+anova(SOM_Ca_mod) #asking for standard output of an anova, not calculating an anova  
+```
+The P-value is 0.117 which is large - accept null hypothesis (that there is no meaningful statistical relationship b/w SOM and Ca)
+
+Now run the summary
+```{r}
+summary(SOM_Ca_mod) #estimates intercept as 307 and slope as 5 - different from what we guessed 
+#R squared = 0.05 - only 5% of variation in calcium can be explained by abundance of SOM (even if it was significant relationship)
+```
+
+Lastly, we would plot the relationship
+
+
+
+
+
+
+
+
+2. Does the abundance of worms differ between Donnerville and the Kip Tract?
+
+3. Does the abundance of soil Magnesium (Mg_ppm) differ between Peavine and South Hammond?
+
+4. Does the abundance of zinc (Zn_ppm) differ among forests?
+
