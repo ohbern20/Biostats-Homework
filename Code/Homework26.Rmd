@@ -80,12 +80,13 @@ autoplot(SOM_Ca_mod)
 #Residuals vs fitted shows that variance of residuals is kinda unequal (drop in line at low values, rather than straight line)
 ```
 
-Based on my observaitons of the autoplot results, I am modestly comfortable that my data meet the lm() assumptions
+Based on my observations of the autoplot results, I am modestly comfortable that my data meet the lm() assumptions
 
 Now look at model outcome
 ```{r}
 anova(SOM_Ca_mod) #asking for standard output of an anova, not calculating an anova  
 ```
+
 The P-value is 0.117 which is large - accept null hypothesis (that there is no meaningful statistical relationship b/w SOM and Ca)
 
 Now run the summary
@@ -94,18 +95,112 @@ summary(SOM_Ca_mod) #estimates intercept as 307 and slope as 5 - different from 
 #R squared = 0.05 - only 5% of variation in calcium can be explained by abundance of SOM (even if it was significant relationship)
 ```
 
-Lastly, we would plot the relationship
-
-
-
-
-
-
+Lastly, we would plot the relationship if there were a significant relationship between the variables
 
 
 2. Does the abundance of worms differ between Donnerville and the Kip Tract?
 
+The null hypothesis for this question is there is no significant difference in the abundance of worms between the Donnerville and Kip Tract forests. 
+
+Since we only want data from the Kip and Donnerville plots, I will filter the data to get only worms from the kip and donnerville forests 
+```{r}
+worms <- soil %>% 
+  filter(Forest == "DONNERVILLE" | Forest == "KIP TRACT")
+```
+
+
+Now I will get a quick visual of the variables (since we already examined the summary() of the data above)
+I will create a histogram of worms first
+```{r}
+ggplot(worms, aes(x = Worms)) +
+  geom_histogram()
+  #nothing looks suspicious  
+```
+
+Now I will plot both variables together
+```{r}
+ggplot(worms, aes(x = Forest, y = Worms, color = Forest)) +
+  geom_boxplot() +
+  theme_bw() 
+```
+From looking at this graph I am guessing that there will be a significant difference between the amount of worms found in Kip vs. Donnerville. It apears there are more worms in kip. 
+
+I will now fit the data to a matrix
+```{r}
+worms.mat <- xtabs(Worms ~ Forest,
+                  data = worms)
+```
+
+And I will check the assumption of the model. I am not sure how to check the assumptions for this type of test, autoplot() does not seem to be worknig and I can't find an alternative method in GSWR. For now I will just move forward with the test.
+
+
+Now I will run a chi squared test because I am dealing with one categorical variable (with two levels) and one descrete variable 
+```{r}
+worms.chi <- chisq.test(worms.mat) #small p-value!
+```
+
+Now I will look at the model outcome
+```{r}
+worms.chi #I can see that the p value is small, so I will reject the null hypothesis
+```
+
+I reject the null hypothesis and accept that there is a significant difference between the abundance of worms in the Kip Tract compared to Donnerville.
+
+
+## Next question!
 3. Does the abundance of soil Magnesium (Mg_ppm) differ between Peavine and South Hammond?
 
+First, I will filter the data to contain data just for Peavince and South Hammond
+```{r}
+mg <- soil %>% filter(Forest == "PEAVINE" | Forest == "SOUTH HAMMOND")
+```
+
+Now I will plot the Mg_ppm to look for errors
+```{r}
+ggplot(mg, aes(x = Mg_ppm)) +
+  geom_histogram() #this looks fairly reasonable, could be an outlier but nothing too extreme 
+```
+
+Since we have already observed the Forest variable, I will move ahead with plotting the variables together and observing the relationship
+```{r}
+ggplot(mg, aes(x = Forest, y = Mg_ppm)) +
+  geom_boxplot()
+```
+
+From observing this graph, it looks like there is a difference between the amount of Mg found in these forests, however there is also overlap in the amounts so it may not be significant. 
+
+Now, I will use a use a two-sample t-test since I am dealing with one categorical variable (with two groups) and one continuous variable. 
+
+Again, I'm not sure how to check the assumptions for this type of test. I will plan to ask about this in class and then revise. 
+
+I will now run the test
+```{r}
+t.test(Mg_ppm ~ Forest, data = mg) #large p-value! There level of Mg in the soil is not significantly different between the two locations. 
+```
+
+I accept the null hypothesis that there is no difference in Mg between the two forest locations. 
+
+
+## Next questions!
 4. Does the abundance of zinc (Zn_ppm) differ among forests?
+
+First, I will visualize the Zn_ppm variable
+```{r}
+ggplot(soil, aes(x = Zn_ppm)) +
+  geom_histogram() #there is a wide range in the data but nothing that makes me uncomfortable given that there are a few values consistantly higher than the mean
+```
+
+Next I will construct a visual representation of both variables to examine the relationship
+```{r}
+ggplot(soil, aes(x = Forest, y = Zn_ppm)) +
+  geom_boxplot() #looks like there are some differences, and probably an outlier in degrasse because the highest value is way larger than the mean
+```
+
+
+
+
+
+
+
+
 
