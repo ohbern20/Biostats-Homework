@@ -181,7 +181,7 @@ t.test(Mg_ppm ~ Forest, data = mg) #large p-value! There level of Mg in the soil
 I accept the null hypothesis that there is no difference in Mg between the two forest locations. 
 
 
-## Next questions!
+## Next question!
 4. Does the abundance of zinc (Zn_ppm) differ among forests?
 
 First, I will visualize the Zn_ppm variable
@@ -193,14 +193,37 @@ ggplot(soil, aes(x = Zn_ppm)) +
 Next I will construct a visual representation of both variables to examine the relationship
 ```{r}
 ggplot(soil, aes(x = Forest, y = Zn_ppm)) +
-  geom_boxplot() #looks like there are some differences, and probably an outlier in degrasse because the highest value is way larger than the mean
+  geom_boxplot() #looks like there are some differences, and could be an outlier in degrasse because the highest value is way larger than the mean
+```
+
+Prediction is that there is a significant difference in the levels of Zn between the forests. Seems like the prediction is supported in this figure
+
+Now I will fit the model for an ANOVA since I am working with a continuous variable and a categorical variable with more than two groups. 
+```{r}
+model_zn <- lm(Zn_ppm ~ Forest, data = soil)
 ```
 
 
+And now I will check the assumptions
+```{r}
+autoplot(model_zn)  
+#normal Q-Q plotL shows that most of the data points fit normal dist, with some larger values falling away from the pattern
+#Residuals vs fitted: shows that variance of residuals is fairly equal (slight drop off in line at higher values, rather than straight line)
+```
+
+Given my purpose, I feel fairly confident moving on in the statistical test
+
+I will now run the one-way ANOVA
+```{r}
+anova(model_zn) #large p-value, so I accept my null hypothesis
+```
 
 
+I will also run the summary table for more statistics
+```{r}
+summary(model_zn)
+```
 
-
-
+The large P-value leads me to accept my null hypothesis. There is no statistical difference in the levels of Zn between the different forests. 
 
 
