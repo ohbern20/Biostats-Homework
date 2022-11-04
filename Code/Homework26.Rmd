@@ -23,6 +23,17 @@ A. Forest names
 levels(soil$Forest) #5 levels, looks good! 
 ```
 
+
+Let's also run a summary on all the variables 
+```{r}
+summary(soil) #pay attention to where max is wayyy higher than mean
+```
+
+
+## We'd like to ask the following questions from these data:
+
+### 1. Is there a relationship between Soil organic matter (SOM, %) and soil calcium (Ca_ppm)?
+
 B. Let's check soil organic matter and soil calcium
 
 Start with a histogram of soil organic matter
@@ -37,17 +48,6 @@ ggplot(soil, aes(x = Ca_ppm)) +
   geom_histogram() #looks reasonable
 ```
 
-Let's also run a summary on all the variables 
-```{r}
-summary(soil) #pay attention to where max is wayyy higher than mean
-```
-
-
-## We'd like to ask the following questions from these data:
-
-### 1. Is there a relationship between Soil organic matter (SOM, %) and soil calcium (Ca_ppm)?
-
-We have already looked for outliers and mistakes in these variables
 
 Both variables are continuous 
 #### Plot relationships 
@@ -98,40 +98,62 @@ summary(SOM_Ca_mod) #estimates intercept as 307 and slope as 5 - different from 
 Lastly, we would plot the relationship if there were a significant relationship between the variables
 
 
-2. Does the abundance of worms differ between Donnerville and the Kip Tract?
+### 2. Does the abundance of worms differ between Donnerville and the Kip Tract?
 
 The null hypothesis for this question is there is no significant difference in the abundance of worms between the Donnerville and Kip Tract forests. 
+
+I will look at the forest names first
+```{r}
+levels(soil$Forest) #looks good
+```
 
 Since we only want data from the Kip and Donnerville plots, I will filter the data to get only worms from the kip and donnerville forests 
 ```{r}
 worms <- soil %>% 
   filter(Forest == "DONNERVILLE" | Forest == "KIP TRACT")
+
+worms$Forest <- factor(worms$Forest) #will do this so R relevels the Forest variable
+```
+
+Now let's relevel
+```{r}
+levels(worms$Forest) #only Kip and Donnerville, good
 ```
 
 
 Now I will get a quick visual of the variables (we already examined the summary() table of the data above)
-I will create a histogram of worms first
+I will create a histogram of worms first to look for outliers
 ```{r}
 ggplot(worms, aes(x = Worms)) +
   geom_histogram()
   #nothing looks suspicious  
 ```
 
-Now I will plot both variables together
-```{r}
-ggplot(worms, aes(x = Forest, y = Worms, color = Forest)) +
-  geom_boxplot() +
-  theme_bw() 
-```
-Guess relationship: From looking at this graph I am guessing that there will be a significant difference between the amount of worms found in Kip vs. Donnerville. It apears there are more worms in kip. 
 
-I will now fit the data to a matrix
+Now I will manipulate the data for plotting 
+```{r}
+total_worms <- worms %>% group_by(Forest) %>% summarise(total_worms = sum(Worms))
+```
+
+Now I will plot both variables together and visualize the relationship
+```{r}
+ggplot(total_worms, aes(x = Forest, y = total_worms)) +
+  geom_bar(stat = 'identity', position = 'dodge') +
+  theme_bw() 
+#identity says just plot the means
+#dodge says plot them next to each other
+```
+Guess relationship: From looking at this graph I am guessing that there will be a significant difference between the amount of worms found in Kip vs. Donnerville. It appears there are more worms in kip. 
+
+Now I will think about what test to run. Given the types of variables, I will run a chi square test. I will now fit the data to a matrix first
 ```{r}
 worms.mat <- xtabs(Worms ~ Forest,
                   data = worms)
+
+worms.mat #gives me a table
 ```
 
-This is where I would check assumptions. I am not sure how to check the assumptions for this type of test, autoplot() does not seem to be working and I can't find an alternative method in GSWR. For now I will just move forward with the test.
+This is where I would check assumptions. However, count data typically fit a chi squared distribution so no assumption check necessary for our purposes. 
 
 
 Now I will run a chi squared test because I am dealing with one categorical variable (with two levels) and one descrete variable 
@@ -143,16 +165,18 @@ Now I will look at the model outcome
 ```{r}
 worms.chi #I can see that the p value is small, so I will reject the null hypothesis
 ```
-
-I reject the null hypothesis. There is a significant difference between the abundance of worms in the Kip Tract compared to Donnerville.
+Interpretation: 
+I reject the null hypothesis. It looks like there is a significant difference between the abundance of worms in the Kip Tract compared to Donnerville. There is an association between the number of worms and which forest they are in. 
 
 
 ## Next question!
-3. Does the abundance of soil Magnesium (Mg_ppm) differ between Peavine and South Hammond?
+### 3. Does the abundance of soil Magnesium (Mg_ppm) differ between Peavine and South Hammond?
 
 First, I will filter the data to contain data just for Peavince and South Hammond
 ```{r}
 mg <- soil %>% filter(Forest == "PEAVINE" | Forest == "SOUTH HAMMOND")
+
+mg$Forest <- factor(mg$Forest) #relevel
 ```
 
 Now I will plot the Mg_ppm to look for errors
@@ -161,17 +185,23 @@ ggplot(mg, aes(x = Mg_ppm)) +
   geom_histogram() #this looks fairly reasonable, could be an outlier but nothing too extreme 
 ```
 
+I will examine the data a little further
+```{r}
+mg$Mg_ppm #the highest value doesn't actually look suspicious given the range of data
+```
+
+
 Since we have already observed the Forest variable, I will move ahead with plotting the variables together and observing the relationship
 ```{r}
 ggplot(mg, aes(x = Forest, y = Mg_ppm)) +
   geom_boxplot()
 ```
 
-Guess relationship: From observing this graph, it looks like there is a difference between the amount of Mg found in these forests, however there is also overlap in the amounts so it may not be significant. 
+Guess relationship: From observing this graph, it looks like there could be a slight difference between the amount of Mg found in these forests, however there is also overlap in the amounts so it may not be significant. 
 
 Now, I will use a use a two-sample t-test since I am dealing with one categorical variable (with two groups) and one continuous variable. 
 
-Again, I'm not sure how to check the assumptions for this type of test. I will plan to ask about this in class and then revise. 
+I'm not sure how to check the assumptions for this type of test. I will plan to ask about this in class and then revise if necessary - could run this test at a lm() and check assumptions that way
 
 I will now run the test
 ```{r}
@@ -180,9 +210,18 @@ t.test(Mg_ppm ~ Forest, data = mg) #large p-value! The level of Mg in the soil i
 
 I accept the null hypothesis that there is no significant difference in Mg between the two forest locations. 
 
+And for a better figure that we learned about in class
+```{r}
+ggplot(mg, aes(Forest, Mg_ppm)) +
+  geom_boxplot() +
+ geom_point(position = "jitter", size = 2, alpha = 0.5)+
+     labs(y = "Magnesium, ppm")+
+     theme_bw()
+```
+
 
 ## Next question!
-4. Does the abundance of zinc (Zn_ppm) differ among forests?
+### 4. Does the abundance of zinc (Zn_ppm) differ among forests?
 
 First, I will visualize the Zn_ppm variable
 ```{r}
