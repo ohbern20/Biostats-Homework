@@ -109,7 +109,7 @@ worms <- soil %>%
 ```
 
 
-Now I will get a quick visual of the variables (since we already examined the summary() of the data above)
+Now I will get a quick visual of the variables (we already examined the summary() table of the data above)
 I will create a histogram of worms first
 ```{r}
 ggplot(worms, aes(x = Worms)) +
@@ -123,7 +123,7 @@ ggplot(worms, aes(x = Forest, y = Worms, color = Forest)) +
   geom_boxplot() +
   theme_bw() 
 ```
-From looking at this graph I am guessing that there will be a significant difference between the amount of worms found in Kip vs. Donnerville. It apears there are more worms in kip. 
+Guess relationship: From looking at this graph I am guessing that there will be a significant difference between the amount of worms found in Kip vs. Donnerville. It apears there are more worms in kip. 
 
 I will now fit the data to a matrix
 ```{r}
@@ -131,7 +131,7 @@ worms.mat <- xtabs(Worms ~ Forest,
                   data = worms)
 ```
 
-And I will check the assumption of the model. I am not sure how to check the assumptions for this type of test, autoplot() does not seem to be worknig and I can't find an alternative method in GSWR. For now I will just move forward with the test.
+This is where I would check assumptions. I am not sure how to check the assumptions for this type of test, autoplot() does not seem to be working and I can't find an alternative method in GSWR. For now I will just move forward with the test.
 
 
 Now I will run a chi squared test because I am dealing with one categorical variable (with two levels) and one descrete variable 
@@ -144,7 +144,7 @@ Now I will look at the model outcome
 worms.chi #I can see that the p value is small, so I will reject the null hypothesis
 ```
 
-I reject the null hypothesis and accept that there is a significant difference between the abundance of worms in the Kip Tract compared to Donnerville.
+I reject the null hypothesis. There is a significant difference between the abundance of worms in the Kip Tract compared to Donnerville.
 
 
 ## Next question!
@@ -167,7 +167,7 @@ ggplot(mg, aes(x = Forest, y = Mg_ppm)) +
   geom_boxplot()
 ```
 
-From observing this graph, it looks like there is a difference between the amount of Mg found in these forests, however there is also overlap in the amounts so it may not be significant. 
+Guess relationship: From observing this graph, it looks like there is a difference between the amount of Mg found in these forests, however there is also overlap in the amounts so it may not be significant. 
 
 Now, I will use a use a two-sample t-test since I am dealing with one categorical variable (with two groups) and one continuous variable. 
 
@@ -175,10 +175,10 @@ Again, I'm not sure how to check the assumptions for this type of test. I will p
 
 I will now run the test
 ```{r}
-t.test(Mg_ppm ~ Forest, data = mg) #large p-value! There level of Mg in the soil is not significantly different between the two locations. 
+t.test(Mg_ppm ~ Forest, data = mg) #large p-value! The level of Mg in the soil is not significantly different between the two locations. 
 ```
 
-I accept the null hypothesis that there is no difference in Mg between the two forest locations. 
+I accept the null hypothesis that there is no significant difference in Mg between the two forest locations. 
 
 
 ## Next question!
@@ -187,7 +187,7 @@ I accept the null hypothesis that there is no difference in Mg between the two f
 First, I will visualize the Zn_ppm variable
 ```{r}
 ggplot(soil, aes(x = Zn_ppm)) +
-  geom_histogram() #there is a wide range in the data but nothing that makes me uncomfortable given that there are a few values consistantly higher than the mean
+  geom_histogram() #there is a wide range in the data but nothing that makes me uncomfortable given that there is not one lone outlier
 ```
 
 Next I will construct a visual representation of both variables to examine the relationship
@@ -196,7 +196,7 @@ ggplot(soil, aes(x = Forest, y = Zn_ppm)) +
   geom_boxplot() #looks like there are some differences, and could be an outlier in degrasse because the highest value is way larger than the mean
 ```
 
-Prediction is that there is a significant difference in the levels of Zn between the forests. Seems like the prediction is supported in this figure
+Guess relationship: Prediction is that there is a significant difference in the levels of Zn between the forests.
 
 Now I will fit the model for an ANOVA since I am working with a continuous variable and a categorical variable with more than two groups. 
 ```{r}
@@ -213,7 +213,7 @@ autoplot(model_zn)
 
 Given my purpose, I feel fairly confident moving on in the statistical test
 
-I will now run the one-way ANOVA
+I will now run the one-way ANOVA 
 ```{r}
 anova(model_zn) #large p-value, so I accept my null hypothesis
 ```
