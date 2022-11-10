@@ -6,17 +6,18 @@ output: html_notebook
 First, I'll set up my workspace
 ```{r}
 rm(list = ls())
+library(ggplot2)
 ```
 
 ## Chapter 1 code
 ```{r}
-install.packages(c(
-  "colorBlindness", "directlabels", "dplyr", "ggforce", "gghighlight", 
-  "ggnewscale", "ggplot2", "ggraph", "ggrepel", "ggtext", "ggthemes", 
-  "hexbin", "Hmisc", "mapproj", "maps", "munsell", "ozmaps", 
-  "paletteer", "patchwork", "rmapshaper", "scico", "seriation", "sf", 
-  "stars", "tidygraph", "tidyr", "wesanderson" 
-)) #that almost broke my computer
+#install.packages(c(
+ #"ggnewscale", "ggplot2", "ggraph", "ggrepel", "ggtext", "ggthemes", 
+  #"hexbin", "Hmisc", "mapproj", "maps", "munsell", "ozmaps", 
+  #"paletteer", "patchwork", "rmapshaper", "scico", "seriation", "sf", 
+  #"stars", "tidygraph", "tidyr", "wesanderson" )) 
+
+#that almost broke my computer, I would rather run these separately as I need them so I will make this code a comment instead 
 ```
 
 ## Chapter 2 code
@@ -28,6 +29,7 @@ library(ggplot2)
 mpg
 ```
 
+## Scatter plots first
 
 Make a simple scatter plot graph 
 ```{r}
@@ -100,27 +102,198 @@ ggplot(mpg, aes(displ, hwy)) +
 #Adds a line to fit the points 
 ```
 
-More specifics...
+More specifics...wiggliness of line controlled by span
 ```{r}
 ggplot(mpg, aes (displ, hwy)) + 
   geom_point() + 
   geom_smooth(span = 0.2)
-
-#specify how wide the line spans by 'span = '
+#very wiggly
 ```
-
 
 
 ```{r}
 ggplot(mpg, aes(displ, hwy)) + 
   geom_point() + 
-  geom_smooth(span = 1)
+  geom_smooth(span = 1) #less wiggly
 ```
 
 
+Now I need to run a new package
+```{r}
+install.packages("nlme")
+library(mgcv)
+```
+
+And now a new graph using mgcv package to fit a generalized model additive
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() + 
+  geom_smooth(method = "gam", formula = y ~ s(x))
+```
+
+Use lm() to fit a linear model and give the line the best fit
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() + 
+  geom_smooth(method = "lm")
+```
 
 
+## Now onto boxplots
 
+A simple one
+```{r}
+ggplot(mpg, aes(drv, hwy)) + 
+  geom_point()
+```
+
+Some cool ones
+```{r}
+ggplot(mpg, aes(drv, hwy)) + geom_jitter()
+
+ggplot(mpg, aes(drv, hwy)) + geom_boxplot()
+
+ggplot(mpg, aes(drv, hwy)) + geom_violin()
+```
+
+## Now some histograms/frequency plots
+```{r}
+ggplot(mpg, aes(hwy)) + geom_histogram()
+#> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+ggplot(mpg, aes(hwy)) + geom_freqpoly()
+#> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+
+Play around with binwidth
+```{r}
+ggplot(mpg, aes(hwy)) + 
+  geom_freqpoly(binwidth = 2.5)
+
+ggplot(mpg, aes(hwy)) + 
+  geom_freqpoly(binwidth = 1)
+```
+
+
+```{r}
+ggplot(mpg, aes(displ, colour = drv)) +  #all info on one graph, by color
+  geom_freqpoly(binwidth = 0.5)
+
+ggplot(mpg, aes(displ, fill = drv)) + #separate into three graphs
+  geom_histogram(binwidth = 0.5) + 
+  facet_wrap(~drv, ncol = 1)
+```
+
+
+## Bar charts
+```{r}
+ggplot(mpg, aes(manufacturer)) + 
+  geom_bar() #I can't read the x axis!
+```
+
+
+Build some data...
+```{r}
+drugs <- data.frame(
+  drug = c("a", "b", "c"),
+  effect = c(4.2, 9.7, 6.1)
+)
+```
+
+
+And plot it with two methods
+```{r}
+ggplot(drugs, aes(drug, effect)) + geom_bar(stat = "identity")
+
+ggplot(drugs, aes(drug, effect)) + geom_point()
+```
+
+Similar graphs convey different information
+```{r}
+ggplot(economics, aes(date, unemploy / pop)) +
+  geom_line() #shows unemployment rate
+
+ggplot(economics, aes(date, uempmed)) +
+  geom_line() #shows median number of weeks unemployed
+```
+
+
+Now plot unemployment rate by length of unemployment
+```{r}
+ggplot(economics, aes(unemploy / pop, uempmed)) + 
+  geom_path() +
+  geom_point() #basic version
+
+year <- function(x) as.POSIXlt(x)$year + 1900
+
+ggplot(economics, aes(unemploy / pop, uempmed)) + 
+  geom_path(colour = "grey50") +
+  geom_point(aes(colour = year(date))) #add color gradient by time (years)
+```
+
+Modifying axes
+```{r}
+ggplot(mpg, aes(cty, hwy)) +
+  geom_point(alpha = 1 / 3) #play with alpha
+
+ggplot(mpg, aes(cty, hwy)) + #add axis labels 
+  geom_point(alpha = 1 / 3) + 
+  xlab("city driving (mpg)") + 
+  ylab("highway driving (mpg)")
+
+# Remove the axis labels with NULL
+ggplot(mpg, aes(cty, hwy)) +
+  geom_point(alpha = 1 / 3) + 
+  xlab(NULL) + 
+  ylab(NULL)
+```
+
+Modify limits of the plots
+```{r}
+ggplot(mpg, aes(drv, hwy)) +
+  geom_jitter(width = 0.25)
+
+ggplot(mpg, aes(drv, hwy)) +
+  geom_jitter(width = 0.25) + 
+  xlim("f", "r") + 
+  ylim(20, 30)
+#> Warning: Removed 140 rows containing missing values (geom_point).
+  
+# For continuous scales, use NA to set only one limit
+ggplot(mpg, aes(drv, hwy)) +
+  geom_jitter(width = 0.25, na.rm = TRUE) + 
+  ylim(NA, 30)
+```
+
+
+Save a plot
+```{r}
+p <- ggplot(mpg, aes(displ, hwy, colour = factor(cyl))) +
+  geom_point()
+
+#and view it 
+print(p)
+```
+
+Use ggsave method
+```{r}
+# Save png to disk
+ggsave("plot.png", p, width = 5, height = 5)
+```
+
+
+Use summary() to describe structure of plot
+```{r}
+summary(p)
+```
+
+
+Save a copy of the plot so you can recreate it later
+```{r}
+saveRDS(p, "plot.rds")
+q <- readRDS("plot.rds")
+```
 
 
 
