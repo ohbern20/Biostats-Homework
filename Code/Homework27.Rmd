@@ -1,0 +1,47 @@
+---
+title: "More with GGPlot"
+output: html_notebook
+---
+
+First, I'll set up my workspace
+```{r}
+rm(list = ls())
+```
+
+## Chapter 1 code
+```{r}
+install.packages(c(
+  "colorBlindness", "directlabels", "dplyr", "ggforce", "gghighlight", 
+  "ggnewscale", "ggplot2", "ggraph", "ggrepel", "ggtext", "ggthemes", 
+  "hexbin", "Hmisc", "mapproj", "maps", "munsell", "ozmaps", 
+  "paletteer", "patchwork", "rmapshaper", "scico", "seriation", "sf", 
+  "stars", "tidygraph", "tidyr", "wesanderson" 
+)) #that almost broke my computer
+```
+
+## Chapter 2 code
+
+Access some built-in data by loading ggplot
+```{r}
+library(ggplot2)
+
+mpg
+```
+
+
+Make a simple scatter plot graph 
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point()
+
+#data = mpg, aesthetica = engine size to x, fuel economy to y, layer = points
+```
+
+Alternatively, it is assumed that the first two objects in aes() are mapped to x and y, so it doesn't need to be stated
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point()
+```
+
+
+
