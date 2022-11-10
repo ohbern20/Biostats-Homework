@@ -43,5 +43,84 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_point()
 ```
 
+What does this graph show? Is it useful? 
+```{r}
+ggplot(mpg, aes(model, manufacturer)) + geom_point() #not very useful because can't read the x axis, but it's trying to show which type of car is made by which manufacturers 
+```
+
+
+My prediction is that this will show the trend of fuel consumption in the city vs the country 
+```{r}
+ggplot(mpg, aes(cty, hwy)) + geom_point()
+```
+
+Prediction: as carat increases, price will increase
+```{r}
+ggplot(diamonds, aes(carat, price)) + geom_point()
+```
+
+Prediction: date and unemployment will fluctuate 
+```{r}
+ggplot(economics, aes(date, unemploy)) + geom_line()
+```
+
+Prediction: distribution of mpg in the city, most cars will get lower mileage than higher mieage
+```{r}
+ggplot(mpg, aes(cty)) + geom_histogram()
+```
+
+Now make it pretty: map mpg for highway by displacement with car types color coded 
+```{r}
+ggplot(mpg, aes(displ, hwy, colour = class)) + 
+  geom_point()
+```
+
+Compare:
+```{r}
+ggplot(mpg, aes(displ, hwy)) + geom_point(aes(colour = "blue")) #this graph is done by color, but it is just named "blue," not acutally telling it to plot the color blue
+
+
+ggplot(mpg, aes(displ, hwy)) + geom_point(colour = "blue") #this graph the points are actually blue, though not labelled blue
+```
+
+Now, faceting
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() + 
+  facet_wrap(~class) #make a graph for each of the levels of "class"
+```
+
+Add a smoother to a plot
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() + 
+  geom_smooth()
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x
+
+#Adds a line to fit the points 
+```
+
+More specifics...
+```{r}
+ggplot(mpg, aes (displ, hwy)) + 
+  geom_point() + 
+  geom_smooth(span = 0.2)
+
+#specify how wide the line spans by 'span = '
+```
+
+
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() + 
+  geom_smooth(span = 1)
+```
+
+
+
+
+
+
 
 
