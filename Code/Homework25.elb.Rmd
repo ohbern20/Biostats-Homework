@@ -1,0 +1,119 @@
+---
+title: "GSWR Ch. 5 Part 2"
+output: html_notebook
+---
+
+First I'll set up my workspace
+```{r}
+rm(list = ls())
+library(here)
+library(ggplot2)
+library(tidyverse)
+```
+
+Now I will suck in my data
+```{r}
+plant_gr <- read.csv(here("Data", "plant.growth.rate.csv"))
+```
+
+Now I will glimpse the data
+```{r}
+glimpse(plant_gr)
+```
+
+
+Now I will get a quick visual of the data
+```{r}
+ggplot(plant_gr,
+       aes(x = soil.moisture.content, y = plant.growth.rate)) +
+  geom_point() +
+  ylab("Plant Growth Rate (mm/week)") +
+  theme_bw()
+
+#notice there is a positive slop to the data
+```
+
+Now I will fit the model for a linear regression where plant growth rate is a function of soil moisture content
+```{r}
+model_pgr <- lm(plant.growth.rate ~ soil.moisture.content, 
+                data = plant_gr)
+```
+
+Now I will check the assumptions. First I need to install ggfortify
+```{r}
+library(ggfortify)
+
+#now I will use autoplot to look at assumptions
+autoplot(model_pgr, smooth.colour = NA)
+```
+
+And now for the interpretation
+```{r}
+anova(model_pgr) #can see the large F-value and small degrees freedom 
+```
+
+And now run the summary table
+```{r}
+summary(model_pgr)
+```
+
+And now to go back to a figure that shows the relationship between the variables
+```{r}
+ggplot(plant_gr, aes(x = soil.moisture.content, y = plant.growth.rate)) +
+  geom_point() +
+  geom_smooth(method = 'lm') +
+  ylab("Plant Growth Rate (mm/week)") +
+  theme_bw()
+  #makes a nice linear model fitted line on top of the data points 
+```
+
+Now for a one-way ANOVA 
+First, upload the data I need 
+```{r}
+daphnia <- read.csv(here("Data", "Daphniagrowth.csv"))
+```
+
+And glimpse the data
+```{r}
+glimpse(daphnia) #predict that parasite presnse will negatively impact growth rate
+```
+
+And now build a figure
+```{r}
+ggplot(daphnia, aes(x = parasite, y = growth.rate)) +
+  geom_boxplot() +
+  theme_bw() +
+  coord_flip() #and flip coordinates so easier to read
+#looks like the prediciton is on the right track
+```
+
+Construct the ANOVA next
+```{r}
+model_grow <- lm(growth.rate ~ parasite, data = daphnia)
+```
+
+And check the assumptions
+```{r}
+autoplot(model_grow, smooth.colour = NA)
+```
+
+And not make an inference from a one-way anova
+```{r}
+anova(model_grow) #large F-value, thus small p value and can reject null hypothesis (there is no difference between growth rates)
+```
+
+Summary table
+```{r}
+summary(model_grow)
+```
+
+And now, calculate the actual mean growth rate for the different treatments
+```{r}
+sumData <- daphnia %>%
+  group_by(parasite) %>%
+  summarise(meanGR = mean(growth.rate))
+```
+
+FOR CODE LIKE THIS, IT MIGHT BE WORTH IT TO ALSO NOTE MORE DETAILS ABOUT WHY YOU RUN CERTAIN CODE AND HOW YOU INTERPRET THE OUTPUT FROM CERTAIN CODE (E.G. AUTOPLOT)
+
+
